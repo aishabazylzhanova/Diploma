@@ -603,7 +603,7 @@ public class U {
         return null;
     }
 
-    // Methods to create list items
+
 
     /**
      * Add a generic not editable title-text item to a Layout.
@@ -617,8 +617,6 @@ public class U {
         else textView.setText(text);
     }
 
-    // Compone il testo coi dettagli di un individuo e lo mette nella vista testo
-    // inoltre restituisce lo stesso testo per Confrontatore
     public static String details(Person person, TextView detailsView) {
         String dates = twoDates(person, false);
         String places = twoPlaces(person);
