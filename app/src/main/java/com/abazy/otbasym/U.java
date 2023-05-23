@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.gson.JsonPrimitive;
 
 import org.apache.commons.io.FileUtils;
 import org.folg.gedcom.model.Change;
@@ -77,20 +76,20 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import com.abazy.otbasym.constant.Choice;
-import com.abazy.otbasym.constant.Format;
-import com.abazy.otbasym.constant.Gender;
-import com.abazy.otbasym.detail.FamilyActivity;
-import com.abazy.otbasym.detail.MediaActivity;
-import com.abazy.otbasym.detail.NoteActivity;
-import com.abazy.otbasym.list.FamiliesFragment;
-import com.abazy.otbasym.list.PersonsFragment;
-import com.abazy.otbasym.list.MediaAdapter;
-import com.abazy.otbasym.visitor.FindStack;
-import com.abazy.otbasym.visitor.MediaContainers;
-import com.abazy.otbasym.visitor.MediaContainerList;
-import com.abazy.otbasym.visitor.NoteContainers;
-import com.abazy.otbasym.visitor.NoteReferences;
+import com.abazy.otbasym.Сonstants.Choice;
+import com.abazy.otbasym.Сonstants.Format;
+import com.abazy.otbasym.Сonstants.Gender;
+import com.abazy.otbasym.Details.FamilyActivity;
+import com.abazy.otbasym.Details.MediaActivity;
+import com.abazy.otbasym.Details.NoteActivity;
+import com.abazy.otbasym.Menu.FamiliesFragment;
+import com.abazy.otbasym.Menu.PersonsFragment;
+import com.abazy.otbasym.Menu.MediaAdapter;
+import com.abazy.otbasym.Visitors.FindStack;
+import com.abazy.otbasym.Visitors.MediaContainers;
+import com.abazy.otbasym.Visitors.MediaContainerList;
+import com.abazy.otbasym.Visitors.NoteContainers;
+import com.abazy.otbasym.Visitors.NoteReferences;
 
 /**
  * Static methods used all across the app.

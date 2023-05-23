@@ -22,7 +22,7 @@ import org.folg.gedcom.model.Person;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.abazy.otbasym.constant.Choice;
+import com.abazy.otbasym.Сonstants.Choice;
 
 public class NewRelativeDialog extends DialogFragment {
 

@@ -20,19 +20,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.abazy.otbasym.list.BaurFragment;
+import com.abazy.otbasym.Menu.BaurFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.Arrays;
 import java.util.List;
 
-import com.abazy.otbasym.constant.Choice;
-import com.abazy.otbasym.list.FamiliesFragment;
-import com.abazy.otbasym.list.PersonsFragment;
-import com.abazy.otbasym.list.MediaFragment;
-import com.abazy.otbasym.list.NotesFragment;
-import com.abazy.otbasym.visitor.MediaList;
-import com.abazy.otbasym.visitor.NoteList;
+import com.abazy.otbasym.Сonstants.Choice;
+import com.abazy.otbasym.Menu.FamiliesFragment;
+import com.abazy.otbasym.Menu.PersonsFragment;
+import com.abazy.otbasym.Menu.MediaFragment;
+import com.abazy.otbasym.Menu.NotesFragment;
+import com.abazy.otbasym.Visitors.MediaList;
+import com.abazy.otbasym.Visitors.NoteList;
 
 public class Principal /*TODO Main?*/ extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 

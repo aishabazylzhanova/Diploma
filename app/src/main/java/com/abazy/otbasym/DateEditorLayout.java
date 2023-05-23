@@ -25,8 +25,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import com.abazy.otbasym.constant.Format;
-import com.abazy.otbasym.constant.Kind;
+import com.abazy.otbasym.Сonstants.Format;
+import com.abazy.otbasym.Сonstants.Kind;
 
 public class DateEditorLayout extends LinearLayout {
 

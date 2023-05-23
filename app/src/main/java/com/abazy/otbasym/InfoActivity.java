@@ -23,7 +23,7 @@ import org.folg.gedcom.model.Submitter;
 import java.io.File;
 import java.util.Locale;
 
-import com.abazy.otbasym.visitor.MediaList;
+import com.abazy.otbasym.Visitors.MediaList;
 
 public class InfoActivity extends BaseActivity {
 

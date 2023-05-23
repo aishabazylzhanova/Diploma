@@ -34,13 +34,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Registration.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Registration.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".WelcomeActivity"
+            android:name=".Registration.WelcomeActivity"
             android:exported="false" />
 
         <provider
@@ -97,16 +97,16 @@
         <activity
             android:name=".ProfileActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".detail.FamilyActivity" />
-        <activity android:name=".detail.NameActivity" />
-        <activity android:name=".detail.NoteActivity" />
-        <activity android:name=".detail.MediaActivity" />
-        <activity android:name=".detail.EventActivity" />
+        <activity android:name=".Details.FamilyActivity" />
+        <activity android:name=".Details.NameActivity" />
+        <activity android:name=".Details.NoteActivity" />
+        <activity android:name=".Details.MediaActivity" />
+        <activity android:name=".Details.EventActivity" />
 
 
         <activity
             android:name=".ImageActivity"
-            android:parentActivityName=".detail.MediaActivity"
+            android:parentActivityName=".Details.MediaActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PersonEditorActivity" />
         <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity" />
