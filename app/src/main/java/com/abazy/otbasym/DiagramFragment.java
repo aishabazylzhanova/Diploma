@@ -144,7 +144,7 @@ public class DiagramFragment extends Fragment {
     public void onStart() {
         super.onStart();
         // Reasons why we can continue, especially things that have changed
-        if (forceDraw || (fulcrum != null && !fulcrum.getId().equals(Global.indi)) // TODO: should be tested
+        if (forceDraw || (fulcrum != null && !fulcrum.getId().equals(Global.indi)) // to_Do: should be tested
                 || (graph != null && graph.whichFamily != Global.familyNum)) {
             forceDraw = false;
             box.removeAllViews();
@@ -200,7 +200,7 @@ public class DiagramFragment extends Fragment {
             ((TextView)popup.findViewById(R.id.popup_testo)).setText(suggestion);
             popup.setVisibility(INVISIBLE);
             popup.setOnTouchListener((v, e) -> {
-                //v.performClick(); // TODO: Android Studio says to call this
+                //v.performClick(); // to_Do: Android Studio says to call this
                 if (e.getAction() == MotionEvent.ACTION_DOWN) {
                     v.setVisibility(INVISIBLE);
                     return true;
@@ -781,7 +781,7 @@ public class DiagramFragment extends Fragment {
             intent.putExtra("idIndividuo", idPersona);
             startActivity(intent);
         } else if (id == 6) { // Scollega
-            /*  Todo ad esser precisi bisognerebbe usare Famiglia.scollega(sfr, sr)
+            /*  to_Do ad esser precisi bisognerebbe usare Famiglia.scollega(sfr, sr)
                 che rimuove esattamente il singolo link anziché tutti i link se una persona è linkata + volte nella stessa famiglia
              */
             List<Family> modificate = new ArrayList<>();

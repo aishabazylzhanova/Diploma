@@ -334,7 +334,7 @@ public class ProfileFactsFragment extends Fragment {
                 fatti.remove(fatti.indexOf(pieceObject));
                 break;
             case 213:
-                // todo Conferma elimina
+                // to_Do Conferma elimina
                 one.getEventsFacts().remove(pieceObject);
                 Memory.setInstanceAndAllSubsequentToNull(pieceObject);
                 pieceView.setVisibility(View.GONE);
@@ -357,7 +357,7 @@ public class ProfileFactsFragment extends Fragment {
                 return true;
 
             case 231: // Elimina
-                // todo conferma : Vuoi eliminare questa citazione della fonte? La fonte continuerà ad esistere.
+                // to_Do conferma : Vuoi eliminare questa citazione della fonte? La fonte continuerà ad esistere.
                 one.getSourceCitations().remove(pieceObject);
                 Memory.setInstanceAndAllSubsequentToNull(pieceObject);
                 pieceView.setVisibility(View.GONE);

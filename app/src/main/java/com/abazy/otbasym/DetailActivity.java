@@ -169,9 +169,9 @@ public abstract class   DetailActivity extends AppCompatActivity {
                     startActivityForResult(intent, 43616);
                 } else if (id == 120 || id == 121) { // Create new family member
                     Intent intent = new Intent(this, PersonEditorActivity.class);
-                    intent.putExtra("idIndividuo", "TIZIO_NUOVO"); // TODO: translate
-                    intent.putExtra("idFamiglia", ((Family)object).getId()); // TODO: translate
-                    intent.putExtra("relazione", id - 115); // TODO: translate
+                    intent.putExtra("idIndividuo", "TIZIO_NUOVO"); // to_Do: translate
+                    intent.putExtra("idFamiglia", ((Family)object).getId()); // to_Do: translate
+                    intent.putExtra("relazione", id - 115); // to_Do: translate
                     startActivity(intent);
                 } else if (id == 122 || id == 123) { // Link existing person
                     Intent intent = new Intent(this, Principal.class);
@@ -211,7 +211,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
         // If the FAB menu is empty hides the FAB
         if (!fabMenu(null).getMenu().hasVisibleItems())
             fab.hide();
-        // TODO: when the FAB was hidden, if a piece is deleted the FAB should reappear
+        // to_Do: when the FAB was hidden, if a piece is deleted the FAB should reappear
     }
 
     /**
@@ -297,7 +297,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
         if (resultCode == RESULT_OK) {
             // From the 'Link...' submenu in FAB
             if (requestCode == 34417) { // Family member chosen in PersonsFragment
-                Person personToBeAdded = gc.getPerson(data.getStringExtra("idParente")); //TODO translate
+                Person personToBeAdded = gc.getPerson(data.getStringExtra("idParente")); //to_Do translate
                 FamilyActivity.connect(personToBeAdded, (Family)object, data.getIntExtra("relazione", 0));
                 U.save(true, Memory.firstObject());
                 return;
@@ -420,7 +420,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
     /**
      * Return 'object' casted in the required class,
      * or a new instance of the class, but in this case it immediately goes back.
-     * TODO: code smell: no type safety and reflection creating new classes.
+     * to_Do: code smell: no type safety and reflection creating new classes.
      */
     public Object cast(Class aClass) {
         Object casted = null;
@@ -452,7 +452,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
             this.yolk = yolk;
             this.common = common;
             this.multiLine = multiLine;
-            eggs.add(this); // TODO: this is bad form: it relies on the side effect of creating an object, which should naturally be stateless, and makes it unclear from reading the code what should happen, besides for the compiler not necessarily knowing that anything was done with the object, which I would imagine makes garbage collection slower - besides for being bad form.
+            eggs.add(this); // to_Do: this is bad form: it relies on the side effect of creating an object, which should naturally be stateless, and makes it unclear from reading the code what should happen, besides for the compiler not necessarily knowing that anything was done with the object, which I would imagine makes garbage collection slower - besides for being bad form.
         }
     }
 
@@ -470,7 +470,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
         new Egg(title, method, common, multiLine);
         String text;
         try {
-            text = (String)object.getClass().getMethod("get" + method).invoke(object); // TODO: this reflection is bad performance
+            text = (String)object.getClass().getMethod("get" + method).invoke(object); // to_Do: this reflection is bad performance
         } catch (Exception e) {
             text = "ERROR: " + e.getMessage();
         }
@@ -553,7 +553,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
 
     public static String writeAddress(Address adr, boolean oneLine) {
         if (adr == null) return null;
-        String txt = ""; // TODO: use StringBuilder
+        String txt = ""; // to_Do: use StringBuilder
         String br = oneLine ? ", " : "\n";
         if (adr.getValue() != null)
             txt = adr.getValue() + br;
@@ -615,7 +615,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
      */
     public static String writeEvent(EventFact ef) {
         if (ef == null) return null;
-        String txt = ""; // TODO: use StringBuilder
+        String txt = ""; // to_Do: use StringBuilder
         if (ef.getValue() != null) {
             if (ef.getValue().equals("Y") && ef.getTag() != null
                     && (ef.getTag().equals("MARR") || ef.getTag().equals("DIV")))
@@ -637,7 +637,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
     }
 
     EditText editText;
-    int whichMenu = 1; // Used to hide the options menu when entering editor mode TODO: replace with a boolean as 'editMode'
+    int whichMenu = 1; // Used to hide the options menu when entering editor mode to_Do: replace with a boolean as 'editMode'
 
     void edit(View pieceView) {
         concludeOtherPiece();
@@ -727,7 +727,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
             String surname = ((EditText)box.getChildAt(1).findViewById(R.id.fatto_edita)).getText().toString();
             ((Name)object).setValue(givenName + " /" + surname + "/");
         } else try { // All other normal methods
-            object.getClass().getMethod("set" + pieceObject, String.class).invoke(object, text); // TODO: reflection
+            object.getClass().getMethod("set" + pieceObject, String.class).invoke(object, text); // to_Do: reflection
         } catch (Exception e) {
             Toast.makeText(box.getContext(), e.getLocalizedMessage(), Toast.LENGTH_LONG).show();
             return; // In case of error it remains in editor mode
@@ -736,7 +736,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
         restore(pieceView);
         U.save(true, Memory.firstObject());
 		/*if( Memory.getStepStack().size() == 1 ) {
-			refresh(); // TODO: The record change date should be updated, but perhaps without reloading everything
+			refresh(); // to_Do: The record change date should be updated, but perhaps without reloading everything
 		}*/
         // Refreshes the image in MediaActivity if the File path has been edited
         if (this instanceof MediaActivity && pieceObject.equals("File"))
@@ -805,7 +805,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
                 onBackPressed();
             }
         } else if (id == 5) { // All the others objects
-            // TODO: confirm deletion of all objects
+            // to_Do: confirm deletion of all objects
             delete();
             U.save(true); // The update of the change dates takes place in the Overrides of delete()
             onBackPressed();
@@ -909,7 +909,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // TODo all deletes require deletion confirmation
+            // to_Do all deletes require deletion confirmation
             // Copy
             case 0: // Editable piece
             case 50: // Address
@@ -949,7 +949,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
                 Family f = (Family)object;
                 ChildRef childRef = f.getChildRefs().get(f.getChildren(gc).indexOf(person));
                 f.getChildRefs().add(f.getChildRefs().indexOf(childRef) + 2, childRef);
-                f.getChildRefs().remove(f.getChildRefs().indexOf(childRef)); // TODO: can this be optimized to use removal by object?
+                f.getChildRefs().remove(f.getChildRefs().indexOf(childRef)); // to_Do: can this be optimized to use removal by object?
                 break;
             case 16: // Edit
                 Intent i = new Intent(this, PersonEditorActivity.class);

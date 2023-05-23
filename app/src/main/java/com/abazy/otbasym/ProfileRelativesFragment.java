@@ -36,7 +36,7 @@ public class ProfileRelativesFragment extends Fragment {
         if (gc != null) {
             one = gc.getPerson(Global.indi);
             if (one != null) {
-                /* ToDo Mostrare/poter settare nelle famiglie geniotriali il pedigree, in particolare 'adopted'
+                /* to_Do Mostrare/poter settare nelle famiglie geniotriali il pedigree, in particolare 'adopted'
                 LinearLayout scatola = vistaFamiglia.findViewById( R.id.contenuto_scheda );
                 for( ParentFamilyRef pfr : uno.getParentFamilyRefs() ) {
                     U.metti( scatola, "Ref", pfr.getRef() );

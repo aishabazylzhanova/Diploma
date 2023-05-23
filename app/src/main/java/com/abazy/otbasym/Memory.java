@@ -44,7 +44,7 @@ public class Memory {
      * Returns the last stack of the list, if there is at least one.
      * Otherwise returns an empty stack just to not return null.
      */
-    static StepStack getStepStack() { // TODO: getLastStack()
+    static StepStack getStepStack() { // to_Do: getLastStack()
         if (memory.list.size() > 0)
             return memory.list.get(memory.list.size() - 1);
         else
@@ -63,11 +63,11 @@ public class Memory {
     /**
      * Adds an object in the first position of a new stack.
      */
-    public static void setFirst(Object object) { // TODO: setLeader()
+    public static void setFirst(Object object) { // to_Do: setLeader()
         setFirst(object, null);
     }
 
-    public static void setFirst(Object object, String tag) { // TODO: setLeader()
+    public static void setFirst(Object object, String tag) { // to_Do: setLeader()
         addStack();
         Step step = add(object);
         if (tag != null)
@@ -90,7 +90,7 @@ public class Memory {
      * Puts an object in a first step if there are no stacks, or replaces the first step in the last existing stack.
      * In other words, puts the leader object without adding any more stacks.
      */
-    public static void replaceFirst(Object object) { // TODO: replaceLeader()
+    public static void replaceFirst(Object object) { // to_Do: replaceLeader()
         String tag = object instanceof Family ? "FAM" : "INDI";
         if (memory.list.size() == 0) {
             setFirst(object, tag);
@@ -105,7 +105,7 @@ public class Memory {
     /**
      * Returns the object of the first step of the last stack.
      */
-    public static Object firstObject() { // TODO: getLeaderObject()
+    public static Object firstObject() { // to_Do: getLeaderObject()
         if (getStepStack().size() > 0)
             return getStepStack().firstElement().object;
         else
@@ -115,7 +115,7 @@ public class Memory {
     /**
      * If the stack has more than one object, gets the second to last object, otherwise returns null.
      */
-    public static Object getSecondToLastObject() { // TODO: getPreviousObject()? getPenultimateObject()?
+    public static Object getSecondToLastObject() { // to_Do: getPreviousObject()? getPenultimateObject()?
         StepStack stepStack = getStepStack();
         if (stepStack.size() > 1)
             return stepStack.get(stepStack.size() - 2).object;
@@ -126,7 +126,7 @@ public class Memory {
     /**
      * Returns the object in the last step of the last stack.
      */
-    public static Object getObject() { // TODO: getLastObject()
+    public static Object getObject() { // to_Do: getLastObject()
         if (getStepStack().size() == 0)
             return null;
         else
@@ -137,7 +137,7 @@ public class Memory {
      * Removes one or maybe more steps at the end of the stacks.
      * Represents "one step back", called after onBackPressed().
      */
-    public static void clearStackAndRemove() { // TODO: stepBack()
+    public static void clearStackAndRemove() { // to_Do: stepBack()
         while (getStepStack().size() > 0 && getStepStack().lastElement().clearStackOnBackPressed)
             getStepStack().pop();
         if (getStepStack().size() > 0)
@@ -172,6 +172,6 @@ public class Memory {
         /**
          * {@link FindStack} sets it to true then onBackPressed() the step will be deleted.
          */
-        public boolean clearStackOnBackPressed; // TODO: deleteOnBackPressed()
+        public boolean clearStackOnBackPressed; // to_Do: deleteOnBackPressed()
     }
 }

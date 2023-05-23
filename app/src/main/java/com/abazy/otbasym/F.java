@@ -371,7 +371,7 @@ public class F {
                 // Media folder + File path
                 String path = dir + '/' + name;
                 File test = new File(path);
-                /* TODO: Sometimes File.isFile() produces an ANR, like https://stackoverflow.com/questions/224756
+                /* to_Do: Sometimes File.isFile() produces an ANR, like https://stackoverflow.com/questions/224756
                  *  I tried with various non-existent paths, such as the removed SD card, or with absurd characters,
                  *  but they all simply return false.
                  *  Probably the ANR is when the path points to an existing resource that waits indefinitely. */
@@ -431,7 +431,7 @@ public class F {
 
     /**
      * Cache an image found on the internet for reuse
-     * TODO: maybe it might not even be an asynchronous task but a simple function
+     * to_Do: maybe it might not even be an asynchronous task but a simple function
      */
     static class CacheImage extends AsyncTask<URL, Void, String> {
         Media media;
@@ -509,7 +509,7 @@ public class F {
             Bitmap bitmap;
             try {
                 Connection connection = Jsoup.connect(params[0]);
-                //if (connection.equals(bitmap)) {	// TODO: verify that an address is associated with the hostname
+                //if (connection.equals(bitmap)) {	// to_Do: verify that an address is associated with the hostname
                 Document doc = connection.get();
                 List<Element> list = doc.select("img");
                 if (list.isEmpty()) { // Web page found but without images
@@ -675,7 +675,7 @@ public class F {
                             photoUri = Uri.fromFile(photoFile);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                     }
-                    if (intent.getComponent().getPackageName().equals("com.abazy.otbasym")) { // TODO: extract to build property
+                    if (intent.getComponent().getPackageName().equals("com.abazy.otbasym")) { // to_Do: extract to build property
                         // Create an empty Media
                         Media med;
                         if (code == 4173 || code == 2173) { // Simple media
@@ -753,7 +753,7 @@ public class F {
             File externalFilesDir = context.getExternalFilesDir(String.valueOf(Global.settings.openTree));
             try { // We use the URI
                 InputStream input = context.getContentResolver().openInputStream(uri);
-                // TODO: if the file already exists, do not duplicate it but reuse it: as in ConfirmationActivity.copyFiles
+                // to_Do: if the file already exists, do not duplicate it but reuse it: as in ConfirmationActivity.copyFiles
                 if (path == null) { // Null filename, must be created from scratch
                     String type = context.getContentResolver().getType(uri);
                     path = type.substring(0, type.indexOf('/')) + "."

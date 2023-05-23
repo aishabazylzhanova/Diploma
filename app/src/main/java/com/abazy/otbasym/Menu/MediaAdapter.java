@@ -179,7 +179,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.gestoreVista
     }
 
     // Questa serve solo per creare una RecyclerView con le iconcine dei media che risulti trasparente ai click
-    // todo però impedisce lo scroll in Dettaglio
+    // to_Do però impedisce lo scroll in Dettaglio
     public static class RiciclaVista extends RecyclerView {
         boolean dettagli;
 

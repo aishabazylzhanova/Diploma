@@ -119,7 +119,7 @@ public class U {
     }
 
     // restituisce l'id della Person iniziale di un Gedcom
-    // Todo Integrate into getRootId(Gedcom, Tree)?
+    // to_Do Integrate into getRootId(Gedcom, Tree)?
     public static String trovaRadice(Gedcom gc) {
         if (gc.getHeader() != null)
             if (valoreTag(gc.getHeader().getExtensions(), "_ROOT") != null)
@@ -177,7 +177,7 @@ public class U {
         for (EventFact ef : p.getEventsFacts())
             if (ef.getTag() != null && ef.getTag().equals("TITL") && ef.getValue() != null)
                 return ef.getValue();
-        // Così invece prende INDI.NAME._TYPE.TITL, vecchio metodo di org.folg.gedcom
+        // Così invece prende INDI.NAME._TYPE.TITL, vecchio meto_Do di org.folg.gedcom
         for (Name n : p.getNames())
             if (n.getType() != null && n.getType().equals("TITL") && n.getValue() != null)
                 return n.getValue();
@@ -189,7 +189,7 @@ public class U {
      *
      * @param divider Can be a space " " or a new line "\n"
      */
-    public static String firstAndLastName(Name name, String divider) { // TODO writeFullName()
+    public static String firstAndLastName(Name name, String divider) { // to_Do writeFullName()
         String full = "";
         // Full name from the Value
         if (name.getValue() != null) {
@@ -474,7 +474,7 @@ public class U {
     // Genera il nuovo ID seguente a quelli già esistenti
     static int max;
 
-    public static String newID(Gedcom gc, Class classe) { // TODO: newId()
+    public static String newID(Gedcom gc, Class classe) { // to_Do: newId()
         max = 0;
         String pre = "";
         if (classe == Note.class) {
@@ -895,7 +895,7 @@ public class U {
 
     // Chiede conferma di eliminare un elemento.
     public static boolean preserva(Object cosa) {
-        // todo Conferma elimina
+        // to_Do Conferma elimina
         return false;
     }
 
@@ -933,7 +933,7 @@ public class U {
     // Update the change date of record(s)
     public static void updateChangeDate(Object... objects) {
         for (Object object : objects) {
-            try { // Se aggiornando non ha il metodo get/setChange, passa oltre silenziosamente
+            try { // Se aggiornando non ha il meto_Do get/setChange, passa oltre silenziosamente
                 Change change = (Change)object.getClass().getMethod("getChange").invoke(object);
                 if (change == null) // il record non ha ancora un CHAN
                     change = new Change();
@@ -1033,7 +1033,7 @@ public class U {
      *                   1: diagram possibly asking which family
      *                   2: family possibly asking which family
      */
-    public static void askWhichParentsToShow(Context context, Person person, int whatToOpen) { // TODO whichParentsToShow()
+    public static void askWhichParentsToShow(Context context, Person person, int whatToOpen) { // to_Do whichParentsToShow()
         if (person == null)
             finishParentSelection(context, null, 1, 0);
         else {
@@ -1080,7 +1080,7 @@ public class U {
     /**
      * For a person who has multiple marriages asks which one to show.
      */
-    public static void askWhichSpouceToShow(Context context, Person person, Family family) { // TODO: whichPartnersToShow()
+    public static void askWhichSpouceToShow(Context context, Person person, Family family) { // to_Do: whichPartnersToShow()
         if (person.getSpouseFamilies(Global.gc).size() > 1 && family == null) {
             new AlertDialog.Builder(context).setTitle(R.string.which_family)
                     .setItems(elencoFamiglie(person.getSpouseFamilies(Global.gc)), (dialog, which) -> {

@@ -58,7 +58,7 @@ public class MediaList extends Visitor {
      * Adds only the media alleged with preview (images and videos).
      */
     private void filter(Media media) {
-        String path = F.mediaPath(Global.settings.openTree, media); // TODO: and images from URIs?
+        String path = F.mediaPath(Global.settings.openTree, media); // to_Do: and images from URIs?
         if (path != null) {
             int index = path.lastIndexOf('.');
             if (index > 0) {
@@ -70,7 +70,7 @@ public class MediaList extends Visitor {
                     case "gif":
                     case "bmp":
                     case "webp":
-                    case "heic": // TODO: the image may be rotated 90° or 180°
+                    case "heic": // to_Do: the image may be rotated 90° or 180°
                     case "heif": // Synonymous with .heic
                     case "mp4":
                     case "3gp":

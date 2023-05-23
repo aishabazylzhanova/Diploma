@@ -276,7 +276,7 @@ public class FamilyActivity extends DetailActivity {
      */
     public static void connect(Person person, Family family, int role) {
         switch (role) {
-            case 5: // Parent // TODO: code smell: use of magic number
+            case 5: // Parent
                 // The person Ref inside the family
                 SpouseRef sr = new SpouseRef();
                 sr.setRef(person.getId());

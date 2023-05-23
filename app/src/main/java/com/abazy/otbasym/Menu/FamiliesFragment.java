@@ -98,7 +98,7 @@ public class FamiliesFragment extends Fragment {
         for (Person wife : wrapper.family.getWives(gc))
             parents.append(U.properName(wife)).append("\n");
         if (parents.length() > 0)
-            parents = new StringBuilder(parents.substring(0, parents.length() - 1)); // Just to remove the final '\n' TODO: does StringBuilder has .trim()?
+            parents = new StringBuilder(parents.substring(0, parents.length() - 1)); // Just to remove the final '\n' to_Do: does StringBuilder has .trim()?
         ((TextView)familyView.findViewById(R.id.family_parents)).setText(parents.toString());
         StringBuilder children = new StringBuilder();
         for (Person child : wrapper.family.getChildren(gc))
@@ -255,15 +255,15 @@ public class FamiliesFragment extends Fragment {
         }
     }
 
-    public void refresh(What toDo) {
-        if (toDo == What.RELOAD) { // Reloads all families from Global.gc
+    public void refresh(What to_Do) {
+        if (to_Do == What.RELOAD) { // Reloads all families from Global.gc
             familyList.clear();
             for (Family family : gc.getFamilies())
                 familyList.add(new FamilyWrapper(family));
             ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(familyList.size() + " "
                     + getString(familyList.size() == 1 ? R.string.family : R.string.families).toLowerCase());
             sortFamilies();
-        } else if (toDo == What.UPDATE) { // Updates the content of existing family wrappers
+        } else if (to_Do == What.UPDATE) { // Updates the content of existing family wrappers
             for (FamilyWrapper wrapper : familyList)
                 wrapper.id = wrapper.family.getId();
         }

@@ -35,7 +35,7 @@ public class InfoActivity extends BaseActivity {
         setContentView(R.layout.info_tree);
         LinearLayout scatola = findViewById(R.id.info_scatola);
 
-        final int treeId = getIntent().getIntExtra("idAlbero", 1);
+        final int treeId = getIntent().getIntExtra("idTree", 1);
         final Settings.Tree tree = Global.settings.getTree(treeId);
         final File file = new File(getFilesDir(), treeId + ".json");
         String i = getText(R.string.title) + ": " + tree.title;
@@ -114,9 +114,9 @@ public class InfoActivity extends BaseActivity {
                 }
                 spazio();
                 if (h.getSubmitter(gc) != null)
-                    poni(getText(R.string.submitter), submitterName(h.getSubmitter(gc))); // todo: renderlo cliccabile?
+                    poni(getText(R.string.submitter), submitterName(h.getSubmitter(gc))); // to_Do: renderlo cliccabile?
                 if (gc.getSubmission() != null)
-                    poni(getText(R.string.submission), gc.getSubmission().getDescription()); // todo: cliccabile
+                    poni(getText(R.string.submission), gc.getSubmission().getDescription()); // to_Do: cliccabile
                 spazio();
                 if (h.getGedcomVersion() != null) {
                     poni(getText(R.string.gedcom), h.getGedcomVersion().getVersion());

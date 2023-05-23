@@ -145,7 +145,7 @@ public class TreesActivity extends AppCompatActivity {
                                     startActivity(new Intent(TreesActivity.this, Principal.class));
                                 } else if (id == 1) { // Info Gedcom
                                     Intent intent = new Intent(TreesActivity.this, InfoActivity.class);
-                                    intent.putExtra("idAlbero", treeId);
+                                    intent.putExtra("idTree", treeId);
                                     startActivity(intent);
                                 } else if (id == 2) { // Rinomina albero
                                     AlertDialog.Builder builder = new AlertDialog.Builder(TreesActivity.this);
@@ -171,7 +171,7 @@ public class TreesActivity extends AppCompatActivity {
                                     }, 300);
                                 } else if (id == 3) { // Media folders
                                     startActivity(new Intent(TreesActivity.this, MediaFoldersActivity.class)
-                                            .putExtra("idAlbero", treeId)
+                                            .putExtra("idTree", treeId)
                                     );
                                 } else if (id == 9) {    // Elimina albero
                                     new AlertDialog.Builder(TreesActivity.this).setMessage(R.string.really_delete_tree)

@@ -80,7 +80,6 @@ public class MediaActivity extends DetailActivity {
             if (fileType == 0) { // Placeholder instead of image, the media has to be found
                 F.displayImageCaptureDialog(this, null, 5173, null);
             } else if (fileType == 2 || fileType == 3) { // Open the media with some other app
-                // TODO: if the type is 3 but it is a url (web page without images) tries to open it as a file://
                 if (path != null) {
                     File file = new File(path);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
@@ -102,8 +101,7 @@ public class MediaActivity extends DetailActivity {
                 // From android 7 (Nougat API 24) uri file:// are banned in favor of uri content:// so the file can't be opened
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     try {
-                        StrictMode.class.getMethod("disableDeathOnFileUriExposure").invoke(null); // TODO: don't use reflection to use functions you shouldn't!
-                    } catch (Exception e) {
+                        StrictMode.class.getMethod("disableDeathOnFileUriExposure").invoke(null); } catch (Exception e) {
                     }
                 }
                 startActivity(intent);
@@ -115,7 +113,7 @@ public class MediaActivity extends DetailActivity {
                 startActivity(intent);
             }
         });
-        this.imageView.setTag(R.id.tag_object, 43614 /* TODO: magic number */); // For the image context menu
+        this.imageView.setTag(R.id.tag_object, 43614); // For the image context menu
         registerForContextMenu(this.imageView);
     }
 

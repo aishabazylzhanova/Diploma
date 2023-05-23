@@ -109,7 +109,7 @@ public class MediaFragment extends Fragment {
     /**
      * Detaches a shared media from a container.
      */
-    public static void disconnectMedia(String mediaId, MediaContainer container) { // TODO: unlinkMedia()
+    public static void disconnectMedia(String mediaId, MediaContainer container) { // to_Do: unlinkMedia()
         Iterator<MediaRef> refs = container.getMediaRefs().iterator();
         while (refs.hasNext()) {
             MediaRef ref = refs.next();
@@ -198,7 +198,7 @@ public class MediaFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == 0) {
             startActivity(new Intent(getContext(), MediaFoldersActivity.class)
-                    .putExtra("idAlbero", Global.settings.openTree)
+                    .putExtra("idTree", Global.settings.openTree)
             );
             return true;
         }

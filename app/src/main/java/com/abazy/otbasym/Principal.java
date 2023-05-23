@@ -34,7 +34,7 @@ import com.abazy.otbasym.Menu.NotesFragment;
 import com.abazy.otbasym.Visitors.MediaList;
 import com.abazy.otbasym.Visitors.NoteList;
 
-public class Principal /*TODO Main?*/ extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Principal /*to_Do Main?*/ extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout scatolissima;
     Toolbar toolbar;

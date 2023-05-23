@@ -117,7 +117,7 @@ public class PersonsFragment extends Fragment {
         for (Person person : gc.getPeople()) {
             allPeople.add(new PersonWrapper(person));
             // On version 0.9.2 all person's extensions was removed, replaced by PersonWrapper fields
-            person.setExtensions(null); // todo remove on a future release
+            person.setExtensions(null); // to_Do remove on a future release
         }
         selectedPeople.clear();
         selectedPeople.addAll(allPeople);
@@ -697,7 +697,7 @@ public class PersonsFragment extends Fragment {
         Memory.setInstanceAndAllSubsequentToNull(person);
         gc.getPeople().remove(person);
         gc.createIndexes(); // Necessary
-        String newRootId = U.trovaRadice(gc); // Todo dovrebbe essere: trovaParentePiuProssimo
+        String newRootId = U.trovaRadice(gc); // to_Do dovrebbe essere: trovaParentePiuProssimo
         if (Global.settings.getCurrentTree().root != null && Global.settings.getCurrentTree().root.equals(personId)) {
             Global.settings.getCurrentTree().root = newRootId;
         }

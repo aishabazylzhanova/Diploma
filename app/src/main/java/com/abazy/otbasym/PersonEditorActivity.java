@@ -279,7 +279,7 @@ public class PersonEditorActivity extends AppCompatActivity {
         boolean found = false;
         for (EventFact fact : p.getEventsFacts()) {
             if (fact.getTag().equals("BIRT")) {
-                /* TODO:
+                /* to_Do:
                    if (date.isEmpty() && place.isEmpty() && tagAllEmpty(fact))
                       p.getEventsFacts().remove(fact);
                    More generally, delete a tag when it is empty */

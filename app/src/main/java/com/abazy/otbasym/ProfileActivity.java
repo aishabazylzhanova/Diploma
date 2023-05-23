@@ -281,7 +281,7 @@ public class ProfileActivity extends AppCompatActivity {
                         one.addNote(note);
                         Memory.add(note);
                         startActivity(new Intent(this, NoteActivity.class));
-                        // todo? Dettaglio.edita(View vistaValore);
+                        // to_Do? Dettaglio.edita(View vistaValore);
                         U.save(true, one);
                         break;
                     case 23: // Create shared note
@@ -362,7 +362,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     /* Displays an image in the profile header.
        The blurred background image is displayed in most cases (jpg, png, gif...).
-       ToDo but not in case of a video preview, or image downloaded from the web with ZuppaMedia */
+       to_Do but not in case of a video preview, or image downloaded from the web with ZuppaMedia */
     void setImages() {
         ImageView imageView = findViewById(R.id.profile_image);
         Media media = F.showMainImageForPerson(Global.gc, one, imageView);
@@ -438,7 +438,7 @@ public class ProfileActivity extends AppCompatActivity {
                 // Ottiene l'immagine ritagliata da Android Image Cropper
                 F.endImageCropping(data);
                 U.save(true); // la data di cambio per i Media condivisi viene già salvata nel passaggio precedente
-                // todo passargli Global.mediaCroppato ?
+                // to_Do passargli Global.mediaCroppato ?
                 return;
             } else if (requestCode == 43614) { // Media from MediaFragment
                 MediaRef rifMedia = new MediaRef();

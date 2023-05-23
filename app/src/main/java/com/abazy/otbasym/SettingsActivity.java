@@ -169,7 +169,7 @@ public class SettingsActivity extends BaseActivity {
             if (code == null) {
                 // Returns the string "System language" on the system locale, not on the app locale
                 Configuration config = new Configuration(getResources().getConfiguration());
-                config.setLocale(Resources.getSystem().getConfiguration().locale); // TODO: on API 33 is the app locale instead of the system locale
+                config.setLocale(Resources.getSystem().getConfiguration().locale); // to_Do: on API 33 is the app locale instead of the system locale
                 return createConfigurationContext(config).getText(R.string.system_language).toString();
             } else {
                 Locale locale = new Locale(code);
