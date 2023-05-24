@@ -169,14 +169,14 @@ public abstract class   DetailActivity extends AppCompatActivity {
                     startActivityForResult(intent, 43616);
                 } else if (id == 120 || id == 121) { // Create new family member
                     Intent intent = new Intent(this, PersonEditorActivity.class);
-                    intent.putExtra("idIndividuo", "TIZIO_NUOVO"); // to_Do: translate
-                    intent.putExtra("idFamiglia", ((Family)object).getId()); // to_Do: translate
-                    intent.putExtra("relazione", id - 115); // to_Do: translate
+                    intent.putExtra("idPerson", "NEW_PERSON"); // to_Do: translate
+                    intent.putExtra("idFamily", ((Family)object).getId()); // to_Do: translate
+                    intent.putExtra("relation", id - 115); // to_Do: translate
                     startActivity(intent);
                 } else if (id == 122 || id == 123) { // Link existing person
                     Intent intent = new Intent(this, Principal.class);
                     intent.putExtra(Choice.PERSON, true);
-                    intent.putExtra("relazione", id - 117);
+                    intent.putExtra("relation", id - 117);
                     startActivityForResult(intent, 34417);
                 } else if (id == 124) { // Place marriage event
                     EventFact marriage = new EventFact();
@@ -298,7 +298,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
             // From the 'Link...' submenu in FAB
             if (requestCode == 34417) { // Family member chosen in PersonsFragment
                 Person personToBeAdded = gc.getPerson(data.getStringExtra("idParente")); //to_Do translate
-                FamilyActivity.connect(personToBeAdded, (Family)object, data.getIntExtra("relazione", 0));
+                FamilyActivity.connect(personToBeAdded, (Family)object, data.getIntExtra("relation", 0));
                 U.save(true, Memory.firstObject());
                 return;
             } else if (requestCode == 5065) { // Source chosen in SourcesFragment
@@ -953,7 +953,7 @@ public abstract class   DetailActivity extends AppCompatActivity {
                 break;
             case 16: // Edit
                 Intent i = new Intent(this, PersonEditorActivity.class);
-                i.putExtra("idIndividuo", person.getId());
+                i.putExtra("idPerson", person.getId());
                 startActivity(i);
                 return true;
             case 17: // Lineage

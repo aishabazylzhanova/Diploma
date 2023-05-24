@@ -164,7 +164,7 @@ public class ProfileRelativesFragment extends Fragment {
             moveFamilyRef(1);
         } else if (id == 305) { // Modifica
             Intent intent = new Intent(getContext(), PersonEditorActivity.class);
-            intent.putExtra("idIndividuo", indiId);
+            intent.putExtra("idPerson", indiId);
             startActivity(intent);
         } else if (id == 306) { // Lineage
             FamilyActivity.chooseLineage(getContext(), person, family);

@@ -98,7 +98,7 @@ public class PersonsFragment extends Fragment {
             idsAreNumeric = verifyNumericIds();
             view.findViewById(R.id.fab).setOnClickListener(v -> {
                 Intent intent = new Intent(getContext(), PersonEditorActivity.class);
-                intent.putExtra("idIndividuo", "TIZIO_NUOVO");
+                intent.putExtra("idPerson", "NEW_PERSON");
                 startActivity(intent);
             });
 
@@ -281,20 +281,20 @@ public class PersonsFragment extends Fragment {
                 // Cerca una eventuale famiglia esistente che possa ospitare perno
                 String collocazione = intent.getStringExtra("collocazione");
                 if (collocazione != null && collocazione.equals("FAMIGLIA_ESISTENTE")) {
-                    String idFamiglia = null;
-                    switch (intent.getIntExtra("relazione", 0)) {
+                    String idFamily = null;
+                    switch (intent.getIntExtra("relation", 0)) {
                         case 1: // Genitore
                             if (relative.getSpouseFamilyRefs().size() > 0)
-                                idFamiglia = relative.getSpouseFamilyRefs().get(0).getRef();
+                                idFamily = relative.getSpouseFamilyRefs().get(0).getRef();
                             break;
                         case 2:
                             if (relative.getParentFamilyRefs().size() > 0)
-                                idFamiglia = relative.getParentFamilyRefs().get(0).getRef();
+                                idFamily = relative.getParentFamilyRefs().get(0).getRef();
                             break;
                         case 3:
                             for (Family fam : relative.getSpouseFamilies(gc)) {
                                 if (fam.getHusbandRefs().isEmpty() || fam.getWifeRefs().isEmpty()) {
-                                    idFamiglia = fam.getId();
+                                    idFamily = fam.getId();
                                     break;
                                 }
                             }
@@ -302,14 +302,14 @@ public class PersonsFragment extends Fragment {
                         case 4:
                             for (Family fam : relative.getParentFamilies(gc)) {
                                 if (fam.getHusbandRefs().isEmpty() || fam.getWifeRefs().isEmpty()) {
-                                    idFamiglia = fam.getId();
+                                    idFamily = fam.getId();
                                     break;
                                 }
                             }
                             break;
                     }
-                    if (idFamiglia != null) // addParente() userà la famiglia trovata
-                        intent.putExtra("idFamiglia", idFamiglia);
+                    if (idFamily != null) // addParente() userà la famiglia trovata
+                        intent.putExtra("idFamily", idFamily);
                     else // addParente() creerà una nuova famiglia
                         intent.removeExtra("collocazione");
                 }
@@ -640,7 +640,7 @@ public class PersonsFragment extends Fragment {
             U.askWhichSpouceToShow(getContext(), gc.getPerson(indiId), null);
         } else if (id == 3) { // Modifica
             Intent intent = new Intent(getContext(), PersonEditorActivity.class);
-            intent.putExtra("idIndividuo", indiId);
+            intent.putExtra("idPerson", indiId);
             startActivity(intent);
         } else if (id == 4) { // Edit ID
             U.editId(getContext(), gc.getPerson(indiId), adapter::notifyDataSetChanged);

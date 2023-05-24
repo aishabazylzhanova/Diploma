@@ -34,7 +34,7 @@ public class NewRelativeDialog extends DialogFragment {
     private AlertDialog dialog;
     private Spinner spinner;
     private List<VoceFamiglia> voci = new ArrayList<>();
-    private int relazione;
+    private int relation;
 
     public NewRelativeDialog(Person perno, Family preferitaFiglio, Family preferitaSposo, boolean nuovo, Fragment frammento) {
         this.perno = perno;
@@ -89,11 +89,11 @@ public class NewRelativeDialog extends DialogFragment {
         builder.setView(vista).setPositiveButton(android.R.string.ok, (dialog, id) -> {
             // Setta alcuni valori che verranno passati a EditaIndividuo o ad PersonsFragment e arriveranno ad addParente()
             Intent intent = new Intent();
-            intent.putExtra("idIndividuo", perno.getId());
-            intent.putExtra("relazione", relazione);
+            intent.putExtra("idPerson", perno.getId());
+            intent.putExtra("relation", relation);
             VoceFamiglia voceFamiglia = (VoceFamiglia)spinner.getSelectedItem();
             if (voceFamiglia.famiglia != null)
-                intent.putExtra("idFamiglia", voceFamiglia.famiglia.getId());
+                intent.putExtra("idFamily", voceFamiglia.famiglia.getId());
             else if (voceFamiglia.genitore != null) // Uso 'collocazione' per veicolare l'id del genitore (il terzo attore della scena)
                 intent.putExtra("collocazione", "NUOVA_FAMIGLIA_DI" + voceFamiglia.genitore.getId());
             else if (voceFamiglia.esistente) // veicola a PersonsFragment l'intenzione di congiungersi a famiglia esistente
@@ -138,12 +138,12 @@ public class NewRelativeDialog extends DialogFragment {
         return fam.getHusbandRefs().size() + fam.getWifeRefs().size() < 2;
     }
 
-    private void popolaSpinner(int relazione) {
-        this.relazione = relazione;
+    private void popolaSpinner(int relation) {
+        this.relation = relation;
         voci.clear();
         int select = -1; // Indice della voce da selezionare nello spinner
         // Se rimane -1 seleziona la prima voce dello spinner
-        switch (relazione) {
+        switch (relation) {
             case 1: // Genitore
                 for (Family fam : perno.getParentFamilies(Global.gc)) {
                     voci.add(new VoceFamiglia(getContext(), fam));
@@ -193,7 +193,7 @@ public class NewRelativeDialog extends DialogFragment {
                 if (select < 0)
                     select = voci.size() - 1; // Seleziona "Nuova famiglia di..."
                 // Per un figlio seleziona la famiglia preferenziale (se esiste) altrimenti la prima
-                if (relazione == 4) {
+                if (relation == 4) {
                     select = 0;
                     for (VoceFamiglia voce : voci)
                         if (voce.famiglia != null && voce.famiglia.equals(famPrefSposo)) {

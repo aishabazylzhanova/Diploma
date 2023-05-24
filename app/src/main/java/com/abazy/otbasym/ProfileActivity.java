@@ -301,8 +301,8 @@ public class ProfileActivity extends AppCompatActivity {
                         } else {
                             builder.setItems(familiari, (dialog, quale) -> {
                                 Intent intent1 = new Intent(getApplicationContext(), PersonEditorActivity.class);
-                                intent1.putExtra("idIndividuo", one.getId());
-                                intent1.putExtra("relazione", quale + 1);
+                                intent1.putExtra("idPerson", one.getId());
+                                intent1.putExtra("relation", quale + 1);
                                 if (U.controllaMultiMatrimoni(intent1, this, null))
                                     return;
                                 startActivity(intent1);
@@ -316,9 +316,9 @@ public class ProfileActivity extends AppCompatActivity {
                         } else {
                             builder.setItems(familiari, (dialog, quale) -> {
                                 Intent intent2 = new Intent(getApplication(), Principal.class);
-                                intent2.putExtra("idIndividuo", one.getId());
+                                intent2.putExtra("idPerson", one.getId());
                                 intent2.putExtra(Choice.PERSON, true);
-                                intent2.putExtra("relazione", quale + 1);
+                                intent2.putExtra("relation", quale + 1);
                                 if (U.controllaMultiMatrimoni(intent2, this, null))
                                     return;
                                 startActivityForResult(intent2, 1401);
@@ -454,10 +454,10 @@ public class ProfileActivity extends AppCompatActivity {
                 one.addSourceCitation(citaz);
             } else if (requestCode == 1401) { // Parente
                 Object[] modificati = PersonEditorActivity.addParent(
-                        data.getStringExtra("idIndividuo"), // corrisponde a uno.getId()
+                        data.getStringExtra("idPerson"), // corrisponde a uno.getId()
                         data.getStringExtra("idParente"),
-                        data.getStringExtra("idFamiglia"),
-                        data.getIntExtra("relazione", 0),
+                        data.getStringExtra("idFamily"),
+                        data.getIntExtra("relation", 0),
                         data.getStringExtra("collocazione"));
                 U.save(true, modificati);
                 return;
@@ -507,7 +507,7 @@ public class ProfileActivity extends AppCompatActivity {
                 return true;
             case 4: // Edit
                 Intent intent1 = new Intent(this, PersonEditorActivity.class);
-                intent1.putExtra("idIndividuo", one.getId());
+                intent1.putExtra("idPerson", one.getId());
                 startActivity(intent1);
                 return true;
             case 5:    // Delete

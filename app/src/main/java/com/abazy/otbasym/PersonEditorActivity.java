@@ -59,9 +59,9 @@ public class PersonEditorActivity extends AppCompatActivity {
         U.ensureGlobalGedcomNotNull(gc);
         setContentView(R.layout.edit_person);
         Bundle bundle = getIntent().getExtras();
-        idIndi = bundle.getString("idIndividuo");
-        familyId = bundle.getString("idFamiglia");
-        relation = bundle.getInt("relazione", 0);
+        idIndi = bundle.getString("idPerson");
+        familyId = bundle.getString("idFamily");
+        relation = bundle.getInt("relation", 0);
 
         sexMale = findViewById(R.id.sesso1);
         sexFemale = findViewById(R.id.sesso2);
@@ -118,7 +118,7 @@ public class PersonEditorActivity extends AppCompatActivity {
             }
             ((EditText)findViewById(R.id.cognome)).setText(surname);
             // New unrelated person
-        } else if (idIndi.equals("TIZIO_NUOVO")) {
+        } else if (idIndi.equals("NEW_PERSON")) {
             p = new Person();
             // Gets the data of an existing person to edit them
         } else {
@@ -328,7 +328,7 @@ public class PersonEditorActivity extends AppCompatActivity {
 
         // Finalization of new person
         Object[] modifications = {p, null}; // The null is used to receive a possible Family
-        if (idIndi.equals("TIZIO_NUOVO") || relation > 0) {
+        if (idIndi.equals("NEW_PERSON") || relation > 0) {
             String newId = U.newID(gc, Person.class);
             p.setId(newId);
             gc.addPerson(p);
