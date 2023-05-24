@@ -115,10 +115,10 @@ public class DateEditorLayout extends LinearLayout {
             findViewById(R.id.editadata_avanzate).setVisibility(GONE);
         }
 
-        arredaCarro(1, findViewById(R.id.prima_giorno), findViewById(R.id.prima_mese),
+        arrange(1, findViewById(R.id.prima_giorno), findViewById(R.id.prima_mese),
                 findViewById(R.id.prima_secolo), findViewById(R.id.prima_anno));
 
-        arredaCarro(2, findViewById(R.id.seconda_giorno), findViewById(R.id.seconda_mese),
+        arrange(2, findViewById(R.id.seconda_giorno), findViewById(R.id.seconda_mese),
                 findViewById(R.id.seconda_secolo), findViewById(R.id.seconda_anno));
 
         // Al primo focus mostra sè stesso (EditoreData) nascondendo la tastiera
@@ -136,7 +136,7 @@ public class DateEditorLayout extends LinearLayout {
                     // necessario in versioni recenti di android in cui la tastiera ricompare
                 }
                 gedcomDateConverter.data1.date = null; // un resettino
-                impostaTutto();
+                setAll();
                 setVisibility(View.VISIBLE);
             } else
                 setVisibility(View.GONE);
@@ -165,42 +165,40 @@ public class DateEditorLayout extends LinearLayout {
 
             @Override
             public void afterTextChanged(Editable testo) {
-                // non so perché ma in android 5 alla prima editazione viene chiamato 2 volte, che comunque non è un problema
                 if (veroImputTesto)
-                    impostaTutto();
+                    setAll();
                 veroImputTesto = true;
             }
         });
     }
 
-    // Prepara le quattro ruote di un carro con le impostazioni iniziali
-    void arredaCarro(final int quale, final NumberPicker ruotaGiorno, final NumberPicker ruotaMese, final NumberPicker ruotaSecolo, final NumberPicker ruotaAnno) {
-        ruotaGiorno.setMinValue(0);
-        ruotaGiorno.setMaxValue(31);
-        ruotaGiorno.setDisplayedValues(giorniRuota);
-        prepareWheel(ruotaGiorno);
-        ruotaGiorno.setOnValueChangedListener((picker, vecchio, nuovo) ->
-                aggiorna(quale == 1 ? data1 : data2, ruotaGiorno, ruotaMese, ruotaSecolo, ruotaAnno)
+     void arrange(final int which, final NumberPicker numberPicker, final NumberPicker numberPicker1, final NumberPicker numberPicker2, final NumberPicker numberPicker3) {
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(31);
+        numberPicker.setDisplayedValues(giorniRuota);
+        prepareWheel(numberPicker);
+        numberPicker.setOnValueChangedListener((picker, vecchio, nuovo) ->
+                aggiorna(which == 1 ? data1 : data2, numberPicker, numberPicker1, numberPicker2, numberPicker3)
         );
-        ruotaMese.setMinValue(0);
-        ruotaMese.setMaxValue(12);
-        ruotaMese.setDisplayedValues(mesiRuota);
-        prepareWheel(ruotaMese);
-        ruotaMese.setOnValueChangedListener((picker, vecchio, nuovo) ->
-                aggiorna(quale == 1 ? data1 : data2, ruotaGiorno, ruotaMese, ruotaSecolo, ruotaAnno)
+        numberPicker1.setMinValue(0);
+        numberPicker1.setMaxValue(12);
+        numberPicker1.setDisplayedValues(mesiRuota);
+        prepareWheel(numberPicker1);
+        numberPicker1.setOnValueChangedListener((picker, vecchio, nuovo) ->
+                aggiorna(which == 1 ? data1 : data2, numberPicker, numberPicker1, numberPicker2, numberPicker3)
         );
-        ruotaSecolo.setMinValue(0);
-        ruotaSecolo.setMaxValue(20);
-        prepareWheel(ruotaSecolo);
-        ruotaSecolo.setOnValueChangedListener((picker, vecchio, nuovo) ->
-                aggiorna(quale == 1 ? data1 : data2, ruotaGiorno, ruotaMese, ruotaSecolo, ruotaAnno)
+        numberPicker2.setMinValue(0);
+        numberPicker2.setMaxValue(20);
+        prepareWheel(numberPicker2);
+        numberPicker2.setOnValueChangedListener((picker, vecchio, nuovo) ->
+                aggiorna(which == 1 ? data1 : data2, numberPicker, numberPicker1, numberPicker2, numberPicker3)
         );
-        ruotaAnno.setMinValue(0);
-        ruotaAnno.setMaxValue(100);
-        ruotaAnno.setDisplayedValues(anniRuota);
-        prepareWheel(ruotaAnno);
-        ruotaAnno.setOnValueChangedListener((picker, vecchio, nuovo) ->
-                aggiorna(quale == 1 ? data1 : data2, ruotaGiorno, ruotaMese, ruotaSecolo, ruotaAnno)
+        numberPicker3.setMinValue(0);
+        numberPicker3.setMaxValue(100);
+        numberPicker3.setDisplayedValues(anniRuota);
+        prepareWheel(numberPicker3);
+        numberPicker3.setOnValueChangedListener((picker, vecchio, nuovo) ->
+                aggiorna(which == 1 ? data1 : data2, numberPicker, numberPicker1, numberPicker2, numberPicker3)
         );
     }
 
@@ -218,22 +216,21 @@ public class DateEditorLayout extends LinearLayout {
         wheel.setSaveFromParentEnabled(false);
     }
 
-    // Prende la stringa data, aggiorna le Date e ci modifica tutto l'editore data
-    // Chiamato quando clicco sul campo editabile, e dopo ogni editazione del testo
-    void impostaTutto() {
+
+    void setAll() {
         gedcomDateConverter.analyze(editaTesto.getText().toString());
 
         ((TextView)findViewById(R.id.editadata_tipi)).setText(dateKinds[gedcomDateConverter.kind.ordinal()]);
 
-        // Primo carro
-        impostaCarro(data1, findViewById(R.id.prima_giorno), findViewById(R.id.prima_mese),
+
+        setTank(data1, findViewById(R.id.prima_giorno), findViewById(R.id.prima_mese),
                 findViewById(R.id.prima_secolo), findViewById(R.id.prima_anno));
         if (Global.settings.expert)
             impostaCecchi(data1);
 
-        // Secondo carro
+
         if (gedcomDateConverter.kind == Kind.BETWEEN_AND || gedcomDateConverter.kind == Kind.FROM_TO) {
-            impostaCarro(data2, findViewById(R.id.seconda_giorno), findViewById(R.id.seconda_mese),
+            setTank(data2, findViewById(R.id.seconda_giorno), findViewById(R.id.seconda_mese),
                     findViewById(R.id.seconda_secolo), findViewById(R.id.seconda_anno));
             if (Global.settings.expert) {
                 findViewById(R.id.editadata_seconda_avanzate).setVisibility(VISIBLE);
@@ -246,31 +243,31 @@ public class DateEditorLayout extends LinearLayout {
         }
     }
 
-    // Gira le ruote di un carro in base a una data
-    void impostaCarro(GedcomDateConverter.Data data, NumberPicker ruotaGiorno, NumberPicker ruotaMese, NumberPicker ruotaSecolo, NumberPicker ruotaAnno) {
+
+    void setTank(GedcomDateConverter.Data data, NumberPicker numberPicker, NumberPicker numberPicker1, NumberPicker numberPicker2, NumberPicker numberPicker3) {
         calenda.clear();
         if (data.date != null)
             calenda.setTime(data.date);
-        ruotaGiorno.setMaxValue(calenda.getActualMaximum(Calendar.DAY_OF_MONTH));
+        numberPicker.setMaxValue(calenda.getActualMaximum(Calendar.DAY_OF_MONTH));
         if (data.date != null && (data.isFormat(Format.D_M_Y) || data.isFormat(Format.D_M)))
-            ruotaGiorno.setValue(data.date.getDate());
+            numberPicker.setValue(data.date.getDate());
         else
-            ruotaGiorno.setValue(0);
+            numberPicker.setValue(0);
         if (data.date == null || data.isFormat(Format.Y))
-            ruotaMese.setValue(0);
+            numberPicker1.setValue(0);
         else
-            ruotaMese.setValue(data.date.getMonth() + 1);
+            numberPicker1.setValue(data.date.getMonth() + 1);
         if (data.date == null || data.isFormat(Format.D_M))
-            ruotaSecolo.setValue(0);
+            numberPicker2.setValue(0);
         else
-            ruotaSecolo.setValue((data.date.getYear() + 1900) / 100);
+            numberPicker2.setValue((data.date.getYear() + 1900) / 100);
         if (data.date == null || data.isFormat(Format.D_M))
-            ruotaAnno.setValue(100);
+            numberPicker3.setValue(100);
         else
-            ruotaAnno.setValue((data.date.getYear() + 1900) % 100);
+            numberPicker3.setValue((data.date.getYear() + 1900) % 100);
     }
 
-    // Imposta i Checkbox per una data che può essere negativa e doppia
+
     void impostaCecchi(GedcomDateConverter.Data data) {
         CheckBox ceccoBC, ceccoDoppia;
         if (data.equals(data1)) {
