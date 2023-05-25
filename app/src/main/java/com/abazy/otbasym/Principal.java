@@ -34,9 +34,9 @@ import com.abazy.otbasym.Menu.NotesFragment;
 import com.abazy.otbasym.Visitors.MediaList;
 import com.abazy.otbasym.Visitors.NoteList;
 
-public class Principal /*to_Do Main?*/ extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Principal extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout scatolissima;
+    DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView menuPrincipe;
     List<Integer> idMenu = Arrays.asList(R.id.nav_diagramma, R.id.nav_persone, R.id.nav_famiglie,
@@ -52,28 +52,28 @@ public class Principal /*to_Do Main?*/ extends AppCompatActivity implements Navi
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        scatolissima = findViewById(R.id.scatolissima);
+        drawerLayout = findViewById(R.id.scatolissima);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, scatolissima, toolbar, R.string.drawer_open, R.string.drawer_close);
-        scatolissima.addDrawerListener(toggle);
+                this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
         menuPrincipe = findViewById(R.id.menu);
         menuPrincipe.setNavigationItemSelectedListener(this);
-        Global.mainView = scatolissima;
+        Global.mainView = drawerLayout;
         U.ensureGlobalGedcomNotNull(gc);
         furnishMenu();
 
-        if (savedInstanceState == null) {  // carica la home solo la prima volta, non ruotando lo schermo
+        if (savedInstanceState == null) {  // loads the home only the first time, not rotating the screen
             Fragment fragment;
-            String backName = null; // Etichetta per individuare diagramma nel backstack dei frammenti
+            String backName = null; // Label to locate diagram in fragment backstack
             if (getIntent().getBooleanExtra(Choice.PERSON, false))
                 fragment = new PersonsFragment();
             else if (getIntent().getBooleanExtra(Choice.MEDIA, false))
                 fragment = new MediaFragment();
             else if (getIntent().getBooleanExtra(Choice.NOTE, false))
                 fragment = new NotesFragment();
-            else { // la normale apertura
+            else {
                 fragment = new DiagramFragment();
                 backName = "diagram";
             }
@@ -82,7 +82,7 @@ public class Principal /*to_Do Main?*/ extends AppCompatActivity implements Navi
         }
 
         menuPrincipe.getHeaderView(0).findViewById(R.id.menu_alberi).setOnClickListener(v -> {
-            scatolissima.closeDrawer(GravityCompat.START);
+            drawerLayout.closeDrawer(GravityCompat.START);
             startActivity(new Intent(Principal.this, TreesActivity.class));
         });
 
@@ -128,7 +128,7 @@ public class Principal /*to_Do Main?*/ extends AppCompatActivity implements Navi
 
     // Update title, random image, 'Save' button in menu header, and menu items count
     void furnishMenu() {
-        NavigationView navigation = scatolissima.findViewById(R.id.menu);
+        NavigationView navigation = drawerLayout.findViewById(R.id.menu);
         View menuHeader = navigation.getHeaderView(0);
 
         TextView mainTitle = menuHeader.findViewById(R.id.menu_titolo);
@@ -198,8 +198,8 @@ public class Principal /*to_Do Main?*/ extends AppCompatActivity implements Navi
 
     @Override
     public void onBackPressed() {
-        if (scatolissima.isDrawerOpen(GravityCompat.START)) {
-            scatolissima.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
@@ -233,7 +233,7 @@ public class Principal /*to_Do Main?*/ extends AppCompatActivity implements Navi
                 fm.beginTransaction().replace(R.id.contenitore_fragment, fragment).addToBackStack(null).commit();
             }
         }
-        scatolissima.closeDrawer(GravityCompat.START);
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

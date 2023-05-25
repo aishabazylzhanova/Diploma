@@ -33,7 +33,7 @@ public class InfoActivity extends BaseActivity {
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
         setContentView(R.layout.info_tree);
-        LinearLayout scatola = findViewById(R.id.info_scatola);
+        LinearLayout box = findViewById(R.id.info_scatola);
 
         final int treeId = getIntent().getIntExtra("idTree", 1);
         final Settings.Tree tree = Global.settings.getTree(treeId);
@@ -72,7 +72,7 @@ public class InfoActivity extends BaseActivity {
         }
         ((TextView)findViewById(R.id.info_statistiche)).setText(i);
 
-        Button bottoneHeader = scatola.findViewById(R.id.info_gestisci_testata);
+        Button bottoneHeader = box.findViewById(R.id.info_gestisci_testata);
         if (gc != null) {
             Header h = gc.getHeader();
             if (h == null) {
@@ -83,7 +83,7 @@ public class InfoActivity extends BaseActivity {
                     recreate();
                 });
             } else {
-                scatola.findViewById(R.id.info_testata).setVisibility(View.VISIBLE);
+                box.findViewById(R.id.info_testata).setVisibility(View.VISIBLE);
                 if (h.getFile() != null)
                     poni(getText(R.string.file), h.getFile());
                 if (h.getCharacterSet() != null) {
@@ -173,11 +173,11 @@ public class InfoActivity extends BaseActivity {
                     recreate();
                 });
 
-                U.placeNotes(scatola, h, true);
+                U.placeNotes(box, h, true);
             }
             // Estensioni del Gedcom, ovvero tag non standard di livello 0 zero
             for (Extension est : U.findExtensions(gc)) {
-                U.place(scatola, est.name, est.text);
+                U.place(box, est.name, est.text);
             }
         } else
             bottoneHeader.setVisibility(View.GONE);

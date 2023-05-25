@@ -1,4 +1,4 @@
-// DialogFragment che crea il dialogo per collegare un parente in modalità esperto
+// DialogFragment which creates the dialogue to connect a relative in expert mode
 
 package com.abazy.otbasym;
 
@@ -27,8 +27,8 @@ import com.abazy.otbasym.Сonstants.Choice;
 public class NewRelativeDialog extends DialogFragment {
 
     private Person perno;
-    private Family famPrefFiglio; // Famiglia come figlio da mostrare eventualmente per prima nello spinner
-    private Family famPrefSposo; // Famiglia come coniuge da mostrare eventualmente per prima nello spinner
+    private Family famPrefChild; // Family as a child to possibly show first in the spinner
+    private Family famPrefSposo; // Family as a spouse to possibly show first in the spinner
     private boolean parenteNuovo;
     private Fragment frammento;
     private AlertDialog dialog;
@@ -38,7 +38,7 @@ public class NewRelativeDialog extends DialogFragment {
 
     public NewRelativeDialog(Person perno, Family preferitaFiglio, Family preferitaSposo, boolean nuovo, Fragment frammento) {
         this.perno = perno;
-        famPrefFiglio = preferitaFiglio;
+        famPrefChild = preferitaFiglio;
         famPrefSposo = preferitaSposo;
         parenteNuovo = nuovo;
         this.frammento = frammento;
@@ -54,7 +54,7 @@ public class NewRelativeDialog extends DialogFragment {
         // Recreate dialog
         if (bundle != null) {
             perno = Global.gc.getPerson(bundle.getString("idPerno"));
-            famPrefFiglio = Global.gc.getFamily(bundle.getString("idFamFiglio"));
+            famPrefChild = Global.gc.getFamily(bundle.getString("idFamFiglio"));
             famPrefSposo = Global.gc.getFamily(bundle.getString("idFamSposo"));
             parenteNuovo = bundle.getBoolean("nuovo");
             frammento = getActivity().getSupportFragmentManager().getFragment(bundle, "frammento");
@@ -123,8 +123,8 @@ public class NewRelativeDialog extends DialogFragment {
     @Override
     public void onSaveInstanceState(Bundle bandolo) {
         bandolo.putString("idPerno", perno.getId());
-        if (famPrefFiglio != null)
-            bandolo.putString("idFamFiglio", famPrefFiglio.getId());
+        if (famPrefChild != null)
+            bandolo.putString("idFamFiglio", famPrefChild.getId());
         if (famPrefSposo != null)
             bandolo.putString("idFamSposo", famPrefSposo.getId());
         bandolo.putBoolean("nuovo", parenteNuovo);
@@ -147,7 +147,7 @@ public class NewRelativeDialog extends DialogFragment {
             case 1: // Genitore
                 for (Family fam : perno.getParentFamilies(Global.gc)) {
                     voci.add(new VoceFamiglia(getContext(), fam));
-                    if ((fam.equals(famPrefFiglio)   // Seleziona la famiglia preferenziale in cui è figlio
+                    if ((fam.equals(famPrefChild)   // Seleziona la famiglia preferenziale in cui è figlio
                             || select < 0)           // oppure la prima disponibile
                             && carenzaConiugi(fam)) // se hanno spazio genitoriale vuoto
                         select = voci.size() - 1;
@@ -176,7 +176,7 @@ public class NewRelativeDialog extends DialogFragment {
                 // Seleziona la famiglia preferenziale come figlio
                 select = 0;
                 for (VoceFamiglia voce : voci)
-                    if (voce.famiglia != null && voce.famiglia.equals(famPrefFiglio)) {
+                    if (voce.famiglia != null && voce.famiglia.equals(famPrefChild)) {
                         select = voci.indexOf(voce);
                         break;
                     }

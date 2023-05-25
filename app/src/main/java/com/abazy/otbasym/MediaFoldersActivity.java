@@ -86,8 +86,8 @@ public class MediaFoldersActivity extends BaseActivity {
             if (Global.settings.expert)
                 urlView.setSingleLine(false);
             View deleteButton = folderView.findViewById(R.id.cartella_elimina);
-            // La cartella '/storage/.../Android/data/com.abazy.otbasym/files/X' va preservata inquanto è quella di default dei media copiati
-            // Oltretutto in Android 11 non è più raddbile dall'utente con SAF
+            // The '/storage/.../Android/data/com.abazy.otbasym/files/X' folder should be preserved as it is the default copied media
+            // Also in Android 11 it is no longer user raddbile with SAF
             if (dir.equals(getExternalFilesDir(null) + "/" + treeId)) {
                 nameView.setText(R.string.app_storage);
                 deleteButton.setVisibility(View.GONE);
@@ -116,11 +116,11 @@ public class MediaFoldersActivity extends BaseActivity {
                 urlView.setSingleLine(false);
                 urlView.setText(uriString);
             } else
-                urlView.setText(Uri.decode(uriString)); // lo mostra decodificato cioè un po' più leggibile
+                urlView.setText(Uri.decode(uriString)); // shows it decoded i.e. a little more readable
             uriView.findViewById(R.id.cartella_elimina).setOnClickListener(v -> {
                 new AlertDialog.Builder(this).setMessage(R.string.sure_delete)
                         .setPositiveButton(R.string.yes, (di, id) -> {
-                            // Revoca il permesso per questo uri, se l'uri non è usato in nessun altro albero
+                            // Revoke permission for this uri, if the uri is not used in any other tree
                             boolean uriEsisteAltrove = false;
                             for (Settings.Tree albero : Global.settings.trees) {
                                 for (String uri : albero.uris)

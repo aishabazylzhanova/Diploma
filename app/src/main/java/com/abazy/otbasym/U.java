@@ -118,7 +118,7 @@ public class U {
         return trovaRadice(gedcom);
     }
 
-    // restituisce l'id della Person iniziale di un Gedcom
+    // returns the id of the initial Person of a Gedcom
     // to_Do Integrate into getRootId(Gedcom, Tree)?
     public static String trovaRadice(Gedcom gc) {
         if (gc.getHeader() != null)

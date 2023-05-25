@@ -37,7 +37,7 @@ public class NewTreeActivity extends BaseActivity {
         super.onCreate(bundle);
         setContentView(R.layout.new_tree);
         progress = findViewById(R.id.new_progress);
-        String referrer = Global.settings.referrer; // Dataid proveniente da una condivisione
+        String referrer = Global.settings.referrer; // DataID from a share
         boolean esisteDataId = referrer != null && referrer.matches("\\d{14}");
 
 
@@ -60,9 +60,9 @@ public class NewTreeActivity extends BaseActivity {
             nuovoNome.setOnEditorActionListener((view, action, event) -> {
                 if (action == EditorInfo.IME_ACTION_DONE) {
                     newTree(nuovoNome.getText().toString());
-                    return true; // completa le azioni di salva()
+                    return true;
                 }
-                return false; // Eventuali altri action che non esistono
+                return false;
             });
             dialogView.postDelayed(() -> {
                 nuovoNome.requestFocus();
@@ -97,24 +97,11 @@ public class NewTreeActivity extends BaseActivity {
         Toast.makeText(this, R.string.tree_created, Toast.LENGTH_SHORT).show();
     }
 
-    // Download the Simpsons zip file from Google Drive into the app's external cache, so without permissions needed
-
-
-    // Unzip a ZIP file in the device storage
-    // Used equally by: Simpsons example, backup files and shared trees
-
-
-    // Confronta le date di invio degli alberi esistenti
-    // Se trova almeno un albero originario tra quelli esistenti restituisce true
-    // ed eventualmente apre il comparatore
-
-
-    // Crea l'intestazione standard per questa app
     public static Header createHeader(String nomeFile) {
         Header testa = new Header();
         Generator app = new Generator();
-        app.setValue("FAMILY_GEM");
-        app.setName("Family Gem");
+        app.setValue("Otbasym");
+        app.setName("Otbasym");
         app.setVersion(BuildConfig.VERSION_NAME);
         testa.setGenerator(app);
         testa.setFile(nomeFile);
@@ -126,14 +113,12 @@ public class NewTreeActivity extends BaseActivity {
         codifica.setValue("UTF-8");
         testa.setCharacterSet(codifica);
         Locale loc = new Locale(Locale.getDefault().getLanguage());
-        // C'è anche Resources.getSystem().getConfiguration().locale.getLanguage() che ritorna lo stesso 'it'
-        testa.setLanguage(loc.getDisplayLanguage(Locale.ENGLISH));    // ok prende la lingua di sistema in inglese, non nella lingua locale
-        // in header ci sono due campi data: TRANSMISSION_DATE un po' forzatamente può contenere la data di ultima modifica
+        testa.setLanguage(loc.getDisplayLanguage(Locale.ENGLISH));
         testa.setDateTime(U.actualDateTime());
         return testa;
     }
 
-    // Freccia indietro nella toolbar come quella hardware
+    // Back arrow in the toolbar like the hardware one
     @Override
     public boolean onOptionsItemSelected(MenuItem i) {
         onBackPressed();
