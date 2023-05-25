@@ -441,7 +441,7 @@ public class U {
      * Receives a GEDCOM-style (comma separated) place name and returns the first locality.
      */
     private static String stripCommas(String place) {
-        // Salta le virgole iniziali per luoghi come ",,,England"
+
         int start = 0;
         for (char c : place.toCharArray()) {
             if (c != ',' && c != ' ')
@@ -458,7 +458,7 @@ public class U {
      * Extracts only digits from a string that can also contain letters.
      */
     public static int extractNum(String id) {
-        //return Integer.parseInt(id.replaceAll("\\D+", "")); // Too slow
+
         int num = 0;
         int x = 1;
         for (int i = id.length() - 1; i >= 0; --i) {
@@ -471,7 +471,7 @@ public class U {
         return num;
     }
 
-    // Genera il nuovo ID seguente a quelli già esistenti
+
     static int max;
 
     public static String newID(Gedcom gc, Class classe) { // to_Do: newId()
@@ -528,7 +528,7 @@ public class U {
         if (clipboard != null) clipboard.setPrimaryClip(clip);
     }
 
-    // Restituisce la lista di estensioni
+
     @SuppressWarnings("unchecked")
     public static List<Extension> findExtensions(ExtensionContainer contenitore) {
         if (contenitore.getExtension(ModelParser.MORE_TAGS_EXTENSION_KEY) != null) {
@@ -583,7 +583,7 @@ public class U {
             view.setVisibility(View.GONE);
     }
 
-    // Restituisce il valore di un determinato tag in una estensione (GedcomTag).
+
     @SuppressWarnings("unchecked")
     static String valoreTag(Map<String, Object> mappaEstensioni, String nomeTag) {
         for (Map.Entry<String, Object> estensione : mappaEstensioni.entrySet()) {
@@ -713,22 +713,20 @@ public class U {
             view.setVisibility(View.GONE);
     }
 
-    // Elimina una Nota inlinea o condivisa
-    // Restituisce un array dei capostipiti modificati
     public static Object[] deleteNote(Note note, View view) {
         Set<Object> capi;
         if (note.getId() != null) { // OBJECT note
-            // Prima rimuove i ref alla nota con un bel Visitor
+
             NoteReferences eliminatoreNote = new NoteReferences(Global.gc, note.getId(), true);
             Global.gc.accept(eliminatoreNote);
-            Global.gc.getNotes().remove(note); // ok la rimuove se è un'object note
+            Global.gc.getNotes().remove(note);
             capi = eliminatoreNote.leaders;
             if (Global.gc.getNotes().isEmpty())
                 Global.gc.setNotes(null);
         } else { // LOCAL note
             new FindStack(Global.gc, note);
             NoteContainer nc = (NoteContainer)Memory.getSecondToLastObject();
-            nc.getNotes().remove(note); // rimuove solo se è una nota locale, non se object note
+            nc.getNotes().remove(note);
             if (nc.getNotes().isEmpty())
                 nc.setNotes(null);
             capi = new HashSet<>();
@@ -741,7 +739,7 @@ public class U {
         return capi.toArray();
     }
 
-    // Elenca tutti i media di un object contenitore
+
     public static void placeMedia(LinearLayout layout, Object container, boolean detailed) {
         RecyclerView griglia = new MediaAdapter.RiciclaVista(layout.getContext(), detailed);
         griglia.setHasFixedSize(true);
@@ -755,21 +753,21 @@ public class U {
         layout.addView(griglia);
     }
 
-    // Di un object inserisce le citazioni alle fonti
+
     public static void placeSourceCitations(LinearLayout layout, Object container) {
         if (Global.settings.expert) {
             List<SourceCitation> listaCitaFonti;
-            if (container instanceof Note) // Note non estende SourceCitationContainer
+            if (container instanceof Note)
                 listaCitaFonti = ((Note)container).getSourceCitations();
             else listaCitaFonti = ((SourceCitationContainer)container).getSourceCitations();
 
         }
     }
 
-    // Inserisce nella scatola il richiamo ad una fonte, con dettagli o essenziale
 
 
-    // La view ritornata è usata da Condivisione
+
+
     public static View linkaPersona(LinearLayout scatola, Person p, int scheda) {
         View vistaPersona = LayoutInflater.from(scatola.getContext()).inflate(R.layout.person_card_in_recycler, scatola, false);
         scatola.addView(vistaPersona);
@@ -812,7 +810,7 @@ public class U {
         return testo;
     }
 
-    // Usato da dispensa
+
     static void linkaFamiglia(LinearLayout scatola, Family fam) {
         View vistaFamiglia = LayoutInflater.from(scatola.getContext()).inflate(R.layout.piece_family, scatola, false);
         scatola.addView(vistaFamiglia);
@@ -823,7 +821,7 @@ public class U {
         });
     }
 
-    // Usato da dispensa
+
     static void linkaMedia(LinearLayout scatola, Media media) {
         View vistaMedia = LayoutInflater.from(scatola.getContext()).inflate(R.layout.media, scatola, false);
         scatola.addView(vistaMedia);
@@ -859,7 +857,7 @@ public class U {
             mettiQualsiasi(cabinet, object);
     }
 
-    // Riconosce il tipo di record e aggiunge il link appropriato alla scatola
+
     static void mettiQualsiasi(LinearLayout scatola, Object record) {
         if (record instanceof Person)
             linkaPersona(scatola, (Person)record, 1);
@@ -871,7 +869,7 @@ public class U {
             linkaMedia(scatola, (Media)record);
     }
 
-    // Aggiunge al layout il pezzo con la data e tempo di Cambiamento
+
     public static void placeChangeDate(final LinearLayout layout, final Change change) {
         View changeView = null;
         if (change != null && Global.settings.expert) {
@@ -893,7 +891,7 @@ public class U {
         }
     }
 
-    // Chiede conferma di eliminare un elemento.
+
     public static boolean preserva(Object cosa) {
         // to_Do Conferma elimina
         return false;
@@ -911,7 +909,7 @@ public class U {
         if (objects != null)
             updateChangeDate(objects);
 
-        // al primo salvataggio marchia gli autori
+
         if (Global.settings.getCurrentTree().grade == 9) {
             for (Submitter autore : Global.gc.getSubmitters())
                 autore.putExtension("passed", true);
@@ -921,7 +919,7 @@ public class U {
 
         if (Global.settings.autoSave)
             saveJson(Global.gc, Global.settings.openTree);
-        else { // mostra il tasto Salva
+        else {
             Global.shouldSave = true;
             if (Global.mainView != null) {
                 NavigationView menu = Global.mainView.findViewById(R.id.menu);
@@ -930,16 +928,16 @@ public class U {
         }
     }
 
-    // Update the change date of record(s)
+
     public static void updateChangeDate(Object... objects) {
         for (Object object : objects) {
-            try { // Se aggiornando non ha il meto_Do get/setChange, passa oltre silenziosamente
+            try {
                 Change change = (Change)object.getClass().getMethod("getChange").invoke(object);
-                if (change == null) // il record non ha ancora un CHAN
+                if (change == null)
                     change = new Change();
                 change.setDateTime(actualDateTime());
                 object.getClass().getMethod("setChange", Change.class).invoke(object, change);
-                // Estensione con l'ID della zona, una stringa come "America/Sao_Paulo"
+
                 change.putExtension("zone", TimeZone.getDefault().getID());
             } catch (Exception e) {
             }
@@ -958,12 +956,12 @@ public class U {
     // Save the Json
     public static void saveJson(Gedcom gedcom, int treeId) {
         Header h = gedcom.getHeader();
-        // Solo se l'header è di Family Gem
+
         if (h != null && h.getGenerator() != null
                 && h.getGenerator().getValue() != null && h.getGenerator().getValue().equals("FAMILY_GEM")) {
-            // Aggiorna la data e l'ora
+
             h.setDateTime(actualDateTime());
-            // Eventualmente aggiorna la versione di Family Gem
+
             if ((h.getGenerator().getVersion() != null && !h.getGenerator().getVersion().equals(BuildConfig.VERSION_NAME))
                     || h.getGenerator().getVersion() == null)
                 h.getGenerator().setVersion(BuildConfig.VERSION_NAME);
@@ -987,8 +985,7 @@ public class U {
         return (int)(dips * Global.context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
-    // Valuta se ci sono persone collegabili rispetto a una persona.
-    // Usato per decidere se far comparire 'Link existing person' nel menu.
+
     static boolean linkablePersons(Person person) {
         int total = Global.gc.getPeople().size();
         if (total > 0 && (Global.settings.expert // Expert user can always
@@ -998,7 +995,6 @@ public class U {
         return total > kin + 1;
     }
 
-    // Chiede se referenziare un autore nell'header dell'albero
     static void autorePrincipale(Context contesto, final String idAutore) {
         final Header[] testa = {Global.gc.getHeader()};
         if (testa[0] == null || testa[0].getSubmitterRef() == null) {
@@ -1015,7 +1011,7 @@ public class U {
     }
 
 
-    // Elenco di stringhe dei membri rappresentativi delle famiglie
+
     static String[] elencoFamiglie(List<Family> listaFamiglie) {
         List<String> famigliePerno = new ArrayList<>();
         for (Family fam : listaFamiglie) {
@@ -1052,22 +1048,22 @@ public class U {
     private static void finishParentSelection(Context context, Person person, int whatToOpen, int whichFamily) {
         if (person != null)
             Global.indi = person.getId();
-        if (whatToOpen > 0) // Viene impostata la famiglia da mostrare
-            Global.familyNum = whichFamily; // normalmente è la 0
-        if (whatToOpen < 2) { // Mostra il diagramma
+        if (whatToOpen > 0)
+            Global.familyNum = whichFamily;
+        if (whatToOpen < 2) {
             if (context instanceof Principal) { // DiagramFragment, PersonsFragment or Principal itself
                 FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
-                // Nome del frammento precedente nel backstack
+
                 String previousName = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1).getName();
                 if (previousName != null && previousName.equals("diagram"))
-                    fm.popBackStack(); // Ricliccando su Diagram rimuove dalla storia il frammento di diagramma predente
+                    fm.popBackStack();
                 fm.beginTransaction().replace(R.id.contenitore_fragment, new DiagramFragment()).addToBackStack("diagram").commit();
-            } else { // Da individuo o da famiglia
+            } else {
                 context.startActivity(new Intent(context, Principal.class));
             }
-        } else { // Viene mostrata la famiglia
+        } else {
             Family family = person.getParentFamilies(Global.gc).get(whichFamily);
-            if (context instanceof FamilyActivity) { // Passando di Famiglia in Famiglia non accumula attività nello stack
+            if (context instanceof FamilyActivity) {
                 Memory.replaceFirst(family);
                 ((Activity)context).recreate();
             } else {
@@ -1096,16 +1092,14 @@ public class U {
         family = family == null ? person.getSpouseFamilies(Global.gc).get(whichFamily) : family;
         if (context instanceof FamilyActivity) {
             Memory.replaceFirst(family);
-            ((Activity)context).recreate(); // Non accumula activity nello stack
+            ((Activity)context).recreate();
         } else {
             Memory.setFirst(family);
             context.startActivity(new Intent(context, FamilyActivity.class));
         }
     }
 
-    // Usato per collegare una persona ad un'altra, solo in modalità inesperto
-    // Verifica se il perno potrebbe avere o ha molteplici matrimoni e chiede a quale attaccare un coniuge o un figlio
-    // È anche responsabile di settare 'idFamily' oppure 'collocazione'
+
     static boolean controllaMultiMatrimoni(Intent intent, Context contesto, Fragment frammento) {
         String idPerno = intent.getStringExtra("idPerson");
         Person perno = Global.gc.getPerson(idPerno);
@@ -1114,14 +1108,10 @@ public class U {
         int relation = intent.getIntExtra("relation", 0);
         ArrayAdapter<NewRelativeDialog.VoceFamiglia> adapter = new ArrayAdapter<>(contesto, android.R.layout.simple_list_item_1);
 
-        // Genitori: esiste già una famiglia che abbia almeno uno spazio vuoto
+
         if (relation == 1 && famGenitori.size() == 1
                 && (famGenitori.get(0).getHusbandRefs().isEmpty() || famGenitori.get(0).getWifeRefs().isEmpty()))
-            intent.putExtra("idFamily", famGenitori.get(0).getId()); // aggiunge 'idFamily' all'intent esistente
-        // se questa famiglia è già piena di genitori, 'idFamily' rimane null
-        // quindi verrà cercata la famiglia esistente del destinatario oppure si crearà una famiglia nuova
-
-        // Genitori: esistono più famiglie
+            intent.putExtra("idFamily", famGenitori.get(0).getId());
         if (relation == 1 && famGenitori.size() > 1) {
             for (Family fam : famGenitori)
                 if (fam.getHusbandRefs().isEmpty() || fam.getWifeRefs().isEmpty())
@@ -1137,7 +1127,7 @@ public class U {
                 return true;
             }
         }
-        // Fratello
+
         else if (relation == 2 && famGenitori.size() == 1) {
             intent.putExtra("idFamily", famGenitori.get(0).getId());
         } else if (relation == 2 && famGenitori.size() > 1) {
@@ -1148,7 +1138,7 @@ public class U {
                     }).show();
             return true;
         }
-        // Coniuge
+
         else if (relation == 3 && famSposi.size() == 1) {
             if (famSposi.get(0).getHusbandRefs().isEmpty() || famSposi.get(0).getWifeRefs().isEmpty()) // Se c'è uno slot libero
                 intent.putExtra("idFamily", famSposi.get(0).getId());
@@ -1157,7 +1147,7 @@ public class U {
                 if (fam.getHusbandRefs().isEmpty() || fam.getWifeRefs().isEmpty())
                     adapter.add(new NewRelativeDialog.VoceFamiglia(contesto, fam));
             }
-            // Nel caso di zero famiglie papabili, idFamily rimane null
+
             if (adapter.getCount() == 1) {
                 intent.putExtra("idFamily", adapter.getItem(0).famiglia.getId());
             } else if (adapter.getCount() > 1) {
@@ -1200,8 +1190,7 @@ public class U {
             contesto.startActivity(intent);
     }
 
-    // Controlla che una o più famiglie siano vuote e propone di eliminarle
-    // 'ancheKo' dice di eseguire 'cheFare' anche cliccando Cancel o fuori dal dialogo
+
     public static boolean controllaFamiglieVuote(Context contesto, Runnable cheFare, boolean ancheKo, Family... famiglie) {
         List<Family> vuote = new ArrayList<>();
         for (Family fam : famiglie) {
@@ -1376,7 +1365,7 @@ public class U {
         }
     }
 
-    // Mostra un messaggio Toast anche da un thread collaterale
+
     public static void toast(Activity activity, int message) {
         toast(activity, activity.getString(message));
     }
