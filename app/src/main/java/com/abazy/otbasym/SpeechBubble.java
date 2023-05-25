@@ -32,8 +32,8 @@ public class SpeechBubble {
         });
         attivita.findViewById(R.id.fab).setOnTouchListener((vista, evento) -> {
             hide();
-            //vista.performClick();
-            return false; // Per eseguire il click dopo
+
+            return false;
         });
     }
 

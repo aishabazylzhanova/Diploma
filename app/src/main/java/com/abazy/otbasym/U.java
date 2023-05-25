@@ -171,13 +171,13 @@ public class U {
         }
     }
 
-    // riceve una Person e restituisce il titolo nobiliare
+
     public static String titolo(Person p) {
-        // GEDCOM standard INDI.TITL
+
         for (EventFact ef : p.getEventsFacts())
             if (ef.getTag() != null && ef.getTag().equals("TITL") && ef.getValue() != null)
                 return ef.getValue();
-        // Così invece prende INDI.NAME._TYPE.TITL, vecchio meto_Do di org.folg.gedcom
+        // So instead it takes INDI.NAME._TYPE.TITL, old meto_Do from org.folg.gedcom
         for (Name n : p.getNames())
             if (n.getType() != null && n.getType().equals("TITL") && n.getValue() != null)
                 return n.getValue();
@@ -248,7 +248,7 @@ public class U {
         return surname;
     }
 
-    // Riceve una person e trova se è morto o seppellito
+    // Receives a person and finds out if he is dead or buried
     public static boolean isDead(Person person) {
         for (EventFact eventFact : person.getEventsFacts()) {
             if (eventFact.getTag().equals("DEAT") || eventFact.getTag().equals("BURI"))

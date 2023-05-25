@@ -69,13 +69,13 @@ public class ProfileFactsFragment extends Fragment {
         return vistaEventi;
     }
 
-    // Scopre se è un nome con name pieces o un suffisso nel value
+
     boolean nomeComplesso(Name n) {
-        // Name pieces
+
         boolean ricco = n.getGiven() != null || n.getSurname() != null
                 || n.getPrefix() != null || n.getSurnamePrefix() != null || n.getSuffix() != null
                 || n.getFone() != null || n.getRomn() != null;
-        // Qualcosa dopo il cognome
+
         String nome = n.getValue();
         boolean suffisso = false;
         if (nome != null) {
@@ -130,7 +130,7 @@ public class ProfileFactsFragment extends Fragment {
             else txt = event.getValue();
             txt += "\n";
         }
-        //if( fatto.getType() != null ) txt += fatto.getType() + "\n"; // Included in event title
+
         if (event.getDate() != null)
             txt += new GedcomDateConverter(event.getDate()).writeDateLong() + "\n";
         if (event.getPlace() != null) txt += event.getPlace() + "\n";
@@ -165,7 +165,7 @@ public class ProfileFactsFragment extends Fragment {
         if (object instanceof Name) {
             U.placeMedia(otherLayout, object, false);
             eventView.setOnClickListener(v -> {
-                // Se è un nome complesso propone la modalità esperto
+
                 if (!Global.settings.expert && nomeComplesso((Name)object)) {
                     new AlertDialog.Builder(getContext()).setMessage(R.string.complex_tree_advanced_tools)
                             .setPositiveButton(android.R.string.ok, (dialog, i) -> {
@@ -214,16 +214,10 @@ public class ProfileFactsFragment extends Fragment {
                     startActivity(new Intent(getContext(), EventActivity.class));
                 });
             }
-//        } else if (object instanceof GedcomTag) {
-//            eventView.setOnClickListener(v -> {
-//                Memory.add(object);
-//                startActivity(new Intent(getContext(), ExtensionActivity.class));
-//            });
+
         }
     }
 
-    // In tutte le famiglie coniugali rimuove gli spouse ref di 'person' e ne aggiunge uno corrispondente al sesso
-    // Serve soprattutto in caso di esportazione del Gedcom per avere allineati gli HUSB e WIFE con il sesso
     static void updateMaritalRoles(Person person) {
         SpouseRef spouseRef = new SpouseRef();
         spouseRef.setRef(person.getId());
@@ -259,13 +253,13 @@ public class ProfileFactsFragment extends Fragment {
         }
     }
 
-    // Menu contestuale
+    // Menu contextual
     View pieceView;
     Object pieceObject;
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {
-        // menuInfo come al solito è null
+
         pieceView = view;
         pieceObject = view.getTag(R.id.tag_object);
         if (pieceObject instanceof Name) {
@@ -304,50 +298,49 @@ public class ProfileFactsFragment extends Fragment {
         List<EventFact> fatti = one.getEventsFacts();
         switch (item.getItemId()) {
             // Nome
-            case 200: // Copia nome
-            case 210: // Copia evento
-            case 220: // Copia estensione
+            case 200: // Copy name
+            case 210: // Copy event
+            case 220: // Copy extension
                 U.copyToClipboard(((TextView)pieceView.findViewById(R.id.evento_titolo)).getText(),
                         ((TextView)pieceView.findViewById(R.id.evento_testo)).getText());
                 return true;
-            case 201: // Sposta su
+            case 201:
                 nomi.add(nomi.indexOf(pieceObject) - 1, (Name)pieceObject);
                 nomi.remove(nomi.lastIndexOf(pieceObject));
                 break;
-            case 202: // Sposta giù
+            case 202:
                 nomi.add(nomi.indexOf(pieceObject) + 2, (Name)pieceObject);
                 nomi.remove(nomi.indexOf(pieceObject));
                 break;
-            case 203: // Elimina
+            case 203: // extension
                 if (U.preserva(pieceObject)) return false;
                 one.getNames().remove(pieceObject);
                 Memory.setInstanceAndAllSubsequentToNull(pieceObject);
                 pieceView.setVisibility(View.GONE);
                 break;
-            // Evento generico
-            case 211: // Sposta su
+
+            case 211: // Move up
                 fatti.add(fatti.indexOf(pieceObject) - 1, (EventFact)pieceObject);
                 fatti.remove(fatti.lastIndexOf(pieceObject));
                 break;
-            case 212: // Sposta giu
+            case 212: // Move down
                 fatti.add(fatti.indexOf(pieceObject) + 2, (EventFact)pieceObject);
                 fatti.remove(fatti.indexOf(pieceObject));
                 break;
             case 213:
-                // to_Do Conferma elimina
                 one.getEventsFacts().remove(pieceObject);
                 Memory.setInstanceAndAllSubsequentToNull(pieceObject);
                 pieceView.setVisibility(View.GONE);
                 break;
-            // Estensione
-            case 221: // Elimina
+
+            case 221:
                 U.deleteExtension((GedcomTag)pieceObject, one, pieceView);
                 break;
-            // Nota
-            case 225: // Copia
+            // Note
+            case 225: // Copy
                 U.copyToClipboard(getText(R.string.note), ((TextView)pieceView.findViewById(R.id.note_text)).getText());
                 return true;
-            case 226: // Scollega
+            case 226: // Unplug
                 U.disconnectNote((Note)pieceObject, one, pieceView);
                 break;
             case 227:
@@ -356,9 +349,8 @@ public class ProfileFactsFragment extends Fragment {
                 refresh();
                 return true;
 
-            case 231: // Elimina
-                // to_Do conferma : Vuoi eliminare questa citazione della fonte? La fonte continuerà ad esistere.
-                one.getSourceCitations().remove(pieceObject);
+            case 231: // Delete
+               one.getSourceCitations().remove(pieceObject);
                 Memory.setInstanceAndAllSubsequentToNull(pieceObject);
                 pieceView.setVisibility(View.GONE);
                 break;

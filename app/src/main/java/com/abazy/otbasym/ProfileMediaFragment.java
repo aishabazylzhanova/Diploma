@@ -51,8 +51,7 @@ public class ProfileMediaFragment extends Fragment {
 
     // Context menu
     Media media;
-    Object container; // Le immagini non sono solo di 'uno', ma anche dei suoi subordinati EventFact, SourceCitation...
-
+    Object container; // The images are not only of 'one', but also of its subordinates EventFact, SourceCitation...
     @Override
     public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo info) {
         media = (Media)view.getTag(R.id.tag_object);
@@ -71,18 +70,18 @@ public class ProfileMediaFragment extends Fragment {
             for (MediaContainerList.MedCont medCont : mediaVisitor.mediaList) // Li resetta tutti poi ne contrassegna uno
                 medCont.media.setPrimary(null);
             media.setPrimary("Y");
-            if (media.getId() != null) // Per aggiornare la data cambiamento nel Media record piuttosto che nella Person
+            if (media.getId() != null) // To update the change date in the Media record rather than in the Person
                 U.save(true, media);
             else
                 U.save(true, one);
             refresh();
             return true;
-        } else if (id == 1) { // Scollega
+        } else if (id == 1) { // Unplug
             MediaFragment.disconnectMedia(media.getId(), (MediaContainer)container);
             U.save(true, one);
             refresh();
             return true;
-        } else if (id == 2) { // Elimina
+        } else if (id == 2) { // Delete
             Object[] capi = MediaFragment.deleteMedia(media, null);
             U.save(true, capi);
             refresh();

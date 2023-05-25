@@ -86,11 +86,11 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
             startActivity(new Intent(Principal.this, TreesActivity.class));
         });
 
-        // Nasconde le voci del menu più ostiche
+
 
     }
 
-    // Chiamato praticamente sempre tranne che onBackPressed
+    //
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         super.onAttachFragment(fragment);
@@ -98,7 +98,7 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
             aggiornaInterfaccia(fragment);
     }
 
-    // Aggiorna i contenuti quando si torna indietro con backPressed()
+
     @Override
     public void onRestart() {
         super.onRestart();
@@ -120,13 +120,13 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
         }
     }
 
-    // Riceve una classe tipo 'DiagramFragment.class' e dice se è il fragment attualmente visibile sulla scena
+
     private boolean frammentoAttuale(Class classe) {
         Fragment attuale = getSupportFragmentManager().findFragmentById(R.id.contenitore_fragment);
         return classe.isInstance(attuale);
     }
 
-    // Update title, random image, 'Save' button in menu header, and menu items count
+    // Update title
     void furnishMenu() {
         NavigationView navigation = drawerLayout.findViewById(R.id.menu);
         View menuHeader = navigation.getHeaderView(0);
@@ -181,7 +181,7 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
-    // Evidenzia voce del menu e mostra/nasconde toolbar
+
     void aggiornaInterfaccia(Fragment fragment) {
         if (fragment == null)
             fragment = getSupportFragmentManager().findFragmentById(R.id.contenitore_fragment);
@@ -203,7 +203,7 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
         } else {
             super.onBackPressed();
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                // Fa tornare a TreesActivity invece di rivedere il primo diagramma del backstack
+                // Returns TreesActivity instead of reviewing the first backstack diagram
                 super.onBackPressed();
             } else
                 aggiornaInterfaccia(null);
@@ -219,16 +219,16 @@ public class Principal extends AppCompatActivity implements NavigationView.OnNav
         }
         if (fragment != null) {
             if (fragment instanceof DiagramFragment) {
-                int cosaAprire = 0; // Mostra il diagramma senza chiedere dei molteplici genitori
-                // Se sono già in diagramma e clicco Diagramma, mostra la persona radice
+                int cosaAprire = 0; // Show the chart without asking about multiple parents
+                //  If I'm already in diagram and I click Diagram, it shows the root person
                 if (frammentoAttuale(DiagramFragment.class)) {
                     Global.indi = Global.settings.getCurrentTree().root;
-                    cosaAprire = 1; // Eventualmente chiede dei molteplici genitori
+                    cosaAprire = 1; // Possibly ask about multiple parents
                 }
                 U.askWhichParentsToShow(this, Global.gc.getPerson(Global.indi), cosaAprire);
             } else {
                 FragmentManager fm = getSupportFragmentManager();
-                // Rimuove frammento precedente dalla storia se è lo stesso che stiamo per vedere
+                // Remove previous fragment from story if it is the same one we are about to see
                 if (frammentoAttuale(fragment.getClass())) fm.popBackStack();
                 fm.beginTransaction().replace(R.id.contenitore_fragment, fragment).addToBackStack(null).commit();
             }

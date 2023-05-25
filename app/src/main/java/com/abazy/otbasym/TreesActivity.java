@@ -42,7 +42,7 @@ public class TreesActivity extends AppCompatActivity {
 
 
     private boolean autoOpenedTree; // To open automatically the tree at startup only once
-    // The birthday notification IDs are stored to display the corresponding person only once
+
 
 
     @Override
@@ -69,15 +69,15 @@ public class TreesActivity extends AppCompatActivity {
 
             if (Global.settings.trees != null) {
 
-                // Lista degli alberi genealogici
+                // List of family trees
                 treeList = new ArrayList<>();
 
-                // Dà i dati in pasto all'adattatore
+                // Feed the data to the adapter
                 adapter = new SimpleAdapter(this, treeList,
                         R.layout.fragment_tree_dots,
                         new String[]{"titolo", "dati"},
                         new int[]{R.id.albero_titolo, R.id.albero_dati}) {
-                    // Individua ciascuna vista dell'elenco
+                    // Locate each view in the list
                     @Override
                     public View getView(final int position, View convertView, ViewGroup parent) {
                         View treeView = super.getView(position, convertView, parent);
@@ -89,7 +89,7 @@ public class TreesActivity extends AppCompatActivity {
                             treeView.setBackgroundColor(getResources().getColor(R.color.accent_medium));
                             ((TextView) treeView.findViewById(R.id.albero_dati)).setTextColor(getResources().getColor(R.color.text));
                             treeView.setOnClickListener(v -> {
-                                tree.grade = 10; // viene retrocesso
+                                tree.grade = 10; // gets demoted
                                 Global.settings.save();
                                 updateList();
                                 Toast.makeText(TreesActivity.this, R.string.something_wrong, Toast.LENGTH_LONG).show();
@@ -100,7 +100,7 @@ public class TreesActivity extends AppCompatActivity {
                             ((TextView) treeView.findViewById(R.id.albero_titolo)).setTextColor(getResources().getColor(R.color.gray_text));
                             treeView.setOnClickListener(v -> {
 
-                                tree.grade = 10; // viene retrocesso
+                                tree.grade = 10; // gets demoted
                                 Global.settings.save();
                                 updateList();
                                 Toast.makeText(TreesActivity.this, R.string.something_wrong, Toast.LENGTH_LONG).show();
@@ -137,17 +137,17 @@ public class TreesActivity extends AppCompatActivity {
                             popup.show();
                             popup.setOnMenuItemClickListener(item -> {
                                 int id = item.getItemId();
-                                if (id == -1) { // Salva
+                                if (id == -1) {
                                     U.saveJson(Global.gc, treeId);
                                     Global.shouldSave = false;
-                                } else if (id == 0) { // Apre un albero derivato
+                                } else if (id == 0) {
                                     openGedcom(treeId, true);
                                     startActivity(new Intent(TreesActivity.this, Principal.class));
                                 } else if (id == 1) { // Info Gedcom
                                     Intent intent = new Intent(TreesActivity.this, InfoActivity.class);
                                     intent.putExtra("idTree", treeId);
                                     startActivity(intent);
-                                } else if (id == 2) { // Rinomina albero
+                                } else if (id == 2) { // rename
                                     AlertDialog.Builder builder = new AlertDialog.Builder(TreesActivity.this);
                                     View vistaMessaggio = getLayoutInflater().inflate(R.layout.title_tree, listView, false);
                                     builder.setView(vistaMessaggio).setTitle(R.string.title);
@@ -173,7 +173,7 @@ public class TreesActivity extends AppCompatActivity {
                                     startActivity(new Intent(TreesActivity.this, MediaFoldersActivity.class)
                                             .putExtra("idTree", treeId)
                                     );
-                                } else if (id == 9) {    // Elimina albero
+                                } else if (id == 9) {    // Delete albero
                                     new AlertDialog.Builder(TreesActivity.this).setMessage(R.string.really_delete_tree)
                                             .setPositiveButton(R.string.delete, (dialog, id1) -> {
                                                 deleteTree(TreesActivity.this, treeId);
@@ -192,7 +192,7 @@ public class TreesActivity extends AppCompatActivity {
                 updateList();
             }
 
-            // Barra personalizzata
+            // Custom bar
             ActionBar bar = getSupportActionBar();
             View treesBar = getLayoutInflater().inflate(R.layout.trees_bar, null);
             treesBar.findViewById(R.id.trees_settings).setOnClickListener(v -> {
@@ -220,19 +220,18 @@ public class TreesActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Nasconde la rotella, in particolare quando si ritorna indietro a questa activity
+        // Hides the wheel, especially when navigating back to this activity
         progress.setVisibility(View.GONE);
     }
 
-    // Essendo TreesActivity launchMode=singleTask, onRestart viene chiamato anche con startActivity (tranne il primo)
-    // però ovviamente solo se TreesActivity ha chiamato onStop (facendo veloce chiama solo onPause)
+
     @Override
     protected void onRestart() {
         super.onRestart();
         updateList();
     }
 
-    // New intent coming from a tapped notification
+
 
 
     @Override
@@ -241,7 +240,7 @@ public class TreesActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
-    // If a birthday notification was tapped loads the relative tree and returns true
+
 
 
     void updateList() {
@@ -250,7 +249,7 @@ public class TreesActivity extends AppCompatActivity {
             Map<String, String> dato = new HashMap<>(3);
             dato.put("id", String.valueOf(alb.id));
             dato.put("titolo", alb.title);
-            // Se Gedcom già aperto aggiorna i dati
+
             if (Global.gc != null && Global.settings.openTree == alb.id && alb.persons < 100)
                 InfoActivity.refreshData(Global.gc, alb);
             dato.put("dati", writeData(this, alb));
@@ -319,7 +318,7 @@ public class TreesActivity extends AppCompatActivity {
             return null;
         }
         String json = text.toString();
-        json = updateLanguage(json);
+
         gedcom = new JsonParser().fromJson(json);
         if (gedcom == null) {
             Toast.makeText(Global.context, R.string.no_useful_data, Toast.LENGTH_LONG).show();
@@ -329,14 +328,8 @@ public class TreesActivity extends AppCompatActivity {
         return gedcom;
     }
 
-    // Replace Italian with English in Json tree data
-    // Introduced in Family Gem 0.8
-    static String updateLanguage(String json) {
-        json = json.replace("\"zona\":", "\"zone\":");
-        json = json.replace("\"famili\":", "\"kin\":");
-        json = json.replace("\"passato\":", "\"passed\":");
-        return json;
-    }
+
+
 
     public static void deleteTree(Context context, int treeId) {
         File treeFile = new File(context.getFilesDir(), treeId + ".json");

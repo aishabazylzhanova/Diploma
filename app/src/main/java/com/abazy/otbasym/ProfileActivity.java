@@ -70,26 +70,26 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(bundle);
         U.ensureGlobalGedcomNotNull(gc);
         one = (Person)Memory.getObject();
-        // Se l'app va in background e viene stoppata, 'Memory' è resettata e quindi 'one' sarà null
+        // If the app goes into the background and is stopped, 'Memory' is reset and therefore 'one' will be null
         if (one == null && bundle != null) {
-            one = gc.getPerson(bundle.getString("idUno")); // In bundle è salvato l'id dell'individuo
-            Memory.setFirst(one); // Altrimenti la memoria è senza una pila
+            one = gc.getPerson(bundle.getString("idUno")); //The individual's id is saved in the bundle
+            Memory.setFirst(one); // Otherwise the memory is without a stack
         }
-        if (one == null) return; // Capita raramente che il bundle non faccia il suo lavoro
+        if (one == null) return; // Rarely does the bundle not do its job
         Global.indi = one.getId();
         setContentView(R.layout.person);
 
         // Barra
         Toolbar toolbar = findViewById(R.id.profile_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // fa comparire la freccia indietro e il menu
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true); // brings up the back arrow and menu
 
-        // Assegna alla vista pagina un adapter che gestisce le tre schede
+        // Give the page view an adapter that manages the three tabs
         ViewPager viewPager = findViewById(R.id.profile_pager);
         ImpaginatoreSezioni impaginatoreSezioni = new ImpaginatoreSezioni();
         viewPager.setAdapter(impaginatoreSezioni);
 
-        // arricchisce il tablayout
+        // enriches the tablayout
         tabLayout = findViewById(R.id.profile_tabs);
         tabLayout.setupWithViewPager(viewPager); // altrimenti il testo nei TabItem scompare (?!)
         tabLayout.getTabAt(0).setText(R.string.media);
@@ -97,14 +97,14 @@ public class ProfileActivity extends AppCompatActivity {
         tabLayout.getTabAt(2).setText(R.string.relatives);
         tabLayout.getTabAt(getIntent().getIntExtra("scheda", 1)).select();
 
-        // per animare il FAB
+        // to animate the FAB
         final FloatingActionButton fab = findViewById(R.id.fab);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int posizione,  // 0 tra la prima e la seconda, 1 tra la seconda e la terza...
-                                       float scostamento, // 1 -> 0 a destra, 0 -> 1 a sinistra
+            public void onPageScrolled(int position,  
+                                       float positionOffset, 
                                        int positionOffsetPixels) {
-                if (scostamento > 0)
+                if (positionOffset > 0)
                     fab.hide();
                 else
                     fab.show();
@@ -124,8 +124,6 @@ public class ProfileActivity extends AppCompatActivity {
                 "NATU", "EMIG", "IMMI", "CENS", "PROB", "WILL", "GRAD", "RETI", "EVEN",
                 "CAST", "DSCR", "EDUC", "NATI", "NCHI", "PROP", "RELI", "SSN", "TITL", // Attributes
                 "_MILT"}; // User-defined
-        /* Standard GEDCOM tags missing in the EventFact.DISPLAY_TYPE list:
-            BASM (there is BATM instead) CHRA IDNO NMR FACT */
         otherEvents = new ArrayList<>();
         for (String tag : otherEventTags) {
             EventFact event = new EventFact();
@@ -145,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
             super(getSupportFragmentManager());
         }
 
-        @Override // in realtà non seleziona ma CREA le tre schede
+        @Override 
         public Fragment getItem(int position) {
             if (position == 0)
                 tabs[0] = new ProfileMediaFragment();
@@ -168,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (one == null || Global.edited)
             one = gc.getPerson(Global.indi);
 
-        if (one == null) { // ritornando indietro nella Scheda di un individuo che è stato eliminato
+        if (one == null) { // going back to the Record of an individual who has been eliminated
             onBackPressed();
             return;
         }
@@ -203,16 +201,16 @@ public class ProfileActivity extends AppCompatActivity {
             PopupMenu popup = new PopupMenu(this, vista);
             Menu menu = popup.getMenu();
             switch (tabLayout.getSelectedTabPosition()) {
-                case 0: // Individuo Media
+                case 0: //  Media
                     menu.add(0, 10, 0, R.string.new_media);
                     menu.add(0, 11, 0, R.string.new_shared_media);
                     if (!gc.getMedia().isEmpty())
                         menu.add(0, 12, 0, R.string.link_shared_media);
                     break;
-                case 1: // Individuo Eventi
+                case 1: //  Event
                     menu.add(0, 20, 0, R.string.name);
                     menu.add(0, 22, 0, R.string.note);
-                    // Sesso
+
                     if (Gender.getGender(one) == Gender.NONE)
                         menu.add(0, 21, 0, R.string.sex);
                     // Main events
@@ -227,7 +225,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
 
                     break;
-                case 2: // Individuo Familiari
+                case 2: //  Family
                     menu.add(0, 30, 0, R.string.new_relative);
                     if (U.linkablePersons(one))
                         menu.add(0, 31, 0, R.string.link_person);
@@ -237,14 +235,14 @@ public class ProfileActivity extends AppCompatActivity {
                 CharSequence[] familiari = {getText(R.string.parent), getText(R.string.sibling), getText(R.string.partner), getText(R.string.child)};
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 switch (item.getItemId()) {
-                    // Scheda Eventi
+
                     case 0:
                         break;
                     // Media
-                    case 10: // Cerca media locale
+                    case 10: // Search local media
                         F.displayImageCaptureDialog(this, null, 2173, one);
                         break;
-                    case 11: // Cerca oggetto media
+                    case 11: // Search media object
                         F.displayImageCaptureDialog(this, null, 2174, one);
                         break;
                     case 12: // Link media in MediaFragment
@@ -281,7 +279,7 @@ public class ProfileActivity extends AppCompatActivity {
                         one.addNote(note);
                         Memory.add(note);
                         startActivity(new Intent(this, NoteActivity.class));
-                        // to_Do? Dettaglio.edita(View vistaValore);
+
                         U.save(true, one);
                         break;
                     case 23: // Create shared note
@@ -293,8 +291,8 @@ public class ProfileActivity extends AppCompatActivity {
                         startActivityForResult(intent, 4074);
                         break;
 
-                    // Scheda Familiari
-                    case 30:// Collega persona nuova
+                    // Family tab
+                    case 30:
                         if (Global.settings.expert) {
                             DialogFragment dialog = new NewRelativeDialog(one, null, null, true, null);
                             dialog.show(getSupportFragmentManager(), "scegli");
@@ -309,7 +307,7 @@ public class ProfileActivity extends AppCompatActivity {
                             }).show();
                         }
                         break;
-                    case 31: // Collega persona esistente
+                    case 31:
                         if (Global.settings.expert) {
                             DialogFragment dialog = new NewRelativeDialog(one, null, null, false, null);
                             dialog.show(getSupportFragmentManager(), "scegli");
@@ -420,41 +418,41 @@ public class ProfileActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 2173) { // File fornito da un'app diventa media locale eventualmente ritagliato con Android Image Cropper
+            if (requestCode == 2173) {
                 Media media = new Media();
                 media.setFileTag("FILE");
                 one.addMedia(media);
-                if (F.proposeCropping(this, null, data, media)) { // restituisce true se è un'immagine ritagliabile
+                if (F.proposeCropping(this, null, data, media)) {
                     U.save(true, one);
                     return;
                 }
-            } else if (requestCode == 2174) { // File dalle app in nuovo Media condiviso, con proposta di ritagliarlo
+            } else if (requestCode == 2174) {
                 Media media = MediaFragment.newMedia(one);
                 if (F.proposeCropping(this, null, data, media)) {
                     U.save(true, media, one);
                     return;
                 }
             } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                // Ottiene l'immagine ritagliata da Android Image Cropper
+
                 F.endImageCropping(data);
-                U.save(true); // la data di cambio per i Media condivisi viene già salvata nel passaggio precedente
-                // to_Do passargli Global.mediaCroppato ?
+                U.save(true);
+
                 return;
-            } else if (requestCode == 43614) { // Media from MediaFragment
+            } else if (requestCode == 43614) {
                 MediaRef rifMedia = new MediaRef();
                 rifMedia.setRef(data.getStringExtra("mediaId"));
                 one.addMediaRef(rifMedia);
-            } else if (requestCode == 4074) { // Nota
+            } else if (requestCode == 4074) { // Note
                 NoteRef rifNota = new NoteRef();
                 rifNota.setRef(data.getStringExtra("noteId"));
                 one.addNoteRef(rifNota);
-            } else if (requestCode == 50473) { // Fonte
+            } else if (requestCode == 50473) {
                 SourceCitation citaz = new SourceCitation();
                 citaz.setRef(data.getStringExtra("sourceId"));
                 one.addSourceCitation(citaz);
-            } else if (requestCode == 1401) { // Parente
+            } else if (requestCode == 1401) {
                 Object[] modificati = PersonEditorActivity.addParent(
-                        data.getStringExtra("idPerson"), // corrisponde a uno.getId()
+                        data.getStringExtra("idPerson"),
                         data.getStringExtra("idParente"),
                         data.getStringExtra("idFamily"),
                         data.getIntExtra("relation", 0),
@@ -463,7 +461,7 @@ public class ProfileActivity extends AppCompatActivity {
                 return;
             }
             U.save(true, one);
-        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) // se clic su freccia indietro in Crop Image
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) // if click back arrow in Crop Image
             Global.edited = true;
     }
 
@@ -525,8 +523,8 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int codice, String[] permessi, int[] accordi) {
-        super.onRequestPermissionsResult(codice, permessi, accordi);
-        F.permissionsResult(this, null, codice, permessi, accordi, one);
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        F.permissionsResult(this, null, requestCode, permissions, grantResults, one);
     }
 }

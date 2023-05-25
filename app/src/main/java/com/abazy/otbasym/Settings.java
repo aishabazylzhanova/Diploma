@@ -122,7 +122,7 @@ public class Settings {
         if (trees != null)
             for (Tree tree : trees) {
                 if (tree.id == treeId) {
-                    if (tree.uris == null) // traghettatore inserito in Family Gem 0.7.15
+                    if (tree.uris == null)
                         tree.uris = new LinkedHashSet<>();
                     return tree;
                 }

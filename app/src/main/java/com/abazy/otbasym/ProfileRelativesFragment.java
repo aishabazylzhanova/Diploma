@@ -130,7 +130,7 @@ public class ProfileRelativesFragment extends Fragment {
                 if (sfr.getRef().equals(family.getId()))
                     posFam = refi.indexOf(sfr);
         }
-        // Meglio usare numeri che non confliggano con i menu contestuali delle altre schede individuo
+        // Better to use numbers that don't conflict with the contextual menus of the other individual tabs
         menu.add(0, 300, 0, R.string.diagram);
         String[] familyLabels = DiagramFragment.getFamilyLabels(getContext(), person, family);
         if (familyLabels[0] != null)
@@ -145,35 +145,35 @@ public class ProfileRelativesFragment extends Fragment {
         if (FamilyActivity.findParentFamilyRef(person, family) != null)
             menu.add(0, 306, 0, R.string.lineage);
         menu.add(0, 307, 0, R.string.unlink);
-        if (!person.equals(one)) // Qui non può eliminare sè stesso
+        if (!person.equals(one))
             menu.add(0, 308, 0, R.string.delete);
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == 300) { // Diagramma
+        if (id == 300) { // Diagramm
             U.askWhichParentsToShow(getContext(), person, 1);
-        } else if (id == 301) { // Famiglia come figlio
+        } else if (id == 301) { // Family as a child
             U.askWhichParentsToShow(getContext(), person, 2);
-        } else if (id == 302) { // Famiglia come coniuge
+        } else if (id == 302) { // Family as a spouse
             U.askWhichSpouceToShow(getContext(), person, family);
-        } else if (id == 303) { // Sposta su
+        } else if (id == 303) { // Scroll up
             moveFamilyRef(-1);
-        } else if (id == 304) { // Sposta giù
+        } else if (id == 304) { // Scroll down
             moveFamilyRef(1);
-        } else if (id == 305) { // Modifica
+        } else if (id == 305) { // Modification
             Intent intent = new Intent(getContext(), PersonEditorActivity.class);
             intent.putExtra("idPerson", indiId);
             startActivity(intent);
         } else if (id == 306) { // Lineage
             FamilyActivity.chooseLineage(getContext(), person, family);
-        } else if (id == 307) { // Scollega da questa famiglia
+        } else if (id == 307) { // Unplug from this family
             FamilyActivity.disconnect(indiId, family);
             refresh();
             U.controllaFamiglieVuote(getContext(), this::refresh, false, family);
             U.save(true, family, person);
-        } else if (id == 308) { // Elimina
+        } else if (id == 308) { // Delete
             new AlertDialog.Builder(getContext()).setMessage(R.string.really_delete_person)
                     .setPositiveButton(R.string.delete, (dialog, i) -> {
                         PersonsFragment.deletePerson(getContext(), indiId);

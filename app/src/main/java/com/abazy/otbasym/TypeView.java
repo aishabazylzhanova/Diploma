@@ -24,13 +24,13 @@ public class TypeView extends AppCompatAutoCompleteTextView {
 		Map<String, Integer> types = getTypes(combo);
 		for( String type : types.keySet() ) {
 			if( !Locale.getDefault().getLanguage().equals("en") )
-				type += " - " + context.getString(types.get(type)); // Traduzione in tutte le lingue diverse dall'inglese
+				type += " - " + context.getString(types.get(type));
 			completeTypes.add(type);
 		}
 		AdattatoreLista adattatoreLista = new AdattatoreLista( context, android.R.layout.simple_spinner_dropdown_item, completeTypes);
 		setAdapter( adattatoreLista );
 		setId( R.id.fatto_edita );
-		//setThreshold(0); // inutile, il minimo è 1
+
 		setInputType( InputType.TYPE_CLASS_TEXT );
 		setOnItemClickListener( (parent, view, position, id) -> {
 			setText((String)types.keySet().toArray()[position]);
